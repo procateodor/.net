@@ -12,7 +12,7 @@ const rootElement = document.getElementById('root');
 
 ReactDOM.render(
   <BrowserRouter basename={baseUrl}>
-    <App title="Super smecher" />
+    <App />
   </BrowserRouter>,
   rootElement);
 
