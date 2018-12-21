@@ -1,0 +1,24 @@
+.navbar{
+    height: 30px;
+    align-items: initial;
+}
+img{
+    height: 20px;
+}
+.username{
+    font-size: 18px; 
+    text-align: right;	
+}
+
+.news-description{
+    text-align: center;
+}
+.name{
+    font-size: 18px; 	
+    font-weight: 600;
+    margin-top: 20px;
+}
+.description{
+    text-align: justify;
+
+}
