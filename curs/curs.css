@@ -1,0 +1,19 @@
+.curs-title{
+    text-align: center;
+}
+p.name{
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+a.pdf{
+    font-style: none;
+    text-decoration: none;
+    color: black;
+}
+.questions{
+    margin-top: 20px;
+}
+.questions{
+    text-align: center;
+}
