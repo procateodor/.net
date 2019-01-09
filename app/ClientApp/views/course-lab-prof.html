@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="course-lab-prof.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-12">
+            <h1 class="curs-title">Introducere in .net</h1>
+        </div>
+        <div class="col-md-12">
+            <div class="add-course">
+                <div class="form">
+                    <div class="add-title">
+                        <p>Add title course</p>
+                        <input type="text">
+                    </div>
+                    <div class="add-description">
+                        <p>Add description</p>
+                        <textarea rows="4" cols="50" placeholder="Add description"></textarea>
+                    </div>
+                    <div class="add-pdf">
+                        <input type="file" id="file" accept=".pdf">
+                    </div>
+                    <div class="submit-all">
+                        <button class="btn btn-primary add-submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+                <div class="curs1">
+                    <p class="name">Course 1</p>
+                    <button type="button" class="btn btn-primary start-game" data-toggle="modal" data-target="#myModal">Game</button>
+                    <p class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis, aspernatur illum beatae architecto cum vel velit dignissimos quae voluptate nesciunt perspiciatis nulla error! Quo assumenda fugit suscipit illo rem laboriosam.</p>
+                    <a href="" class="pdf">Download pdf</a> 
+                    <a href="" class="details"></a>
+                </div>
+        </div>
+        
+        <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Questions</h4>
+                    </div>
+                    <div class="modal-body">
+                      <textarea rows="4" cols="50" placeholder="Intrebare"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                  
+                </div>
+        </div>
+    </div>
+    
+    <script src="course-lab-prof.js"></script>
+</body>
+</html>
