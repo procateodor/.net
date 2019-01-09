@@ -1,19 +1,27 @@
-.curs-title{
-    text-align: center;
-}
+
 p.name{
     font-size: 18px;
     font-weight: 600;
     margin-top: 20px;
+}
+.name{
+    display: inline-block;
+    position: relative;
 }
 a.pdf{
     font-style: none;
     text-decoration: none;
     color: black;
 }
-.questions{
+.put-questions{
+    margin-top: 40px;
+}
+.write-question{
     margin-top: 20px;
 }
-.questions{
-    text-align: center;
+.game{
+    display: inline-block;
+    position: absolute;
+    right: 5%;
+    top: 2%;
 }
