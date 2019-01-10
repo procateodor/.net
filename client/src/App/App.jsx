@@ -8,7 +8,7 @@ import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
-import { ProfCourse } from '../ProfCourse';
+import { StudDisciplines } from '../StudDisciplines';
 
 class App extends React.Component {
     constructor(props) {
@@ -30,11 +30,11 @@ class App extends React.Component {
                 }
                 <Router history={history}>
                     <React.Fragment>
-                        <PrivateRoute exact path="/" component={ProfCourse} />
-                        <Route path="/landing" component={HomePage} />
-                        <Route path="/login" component={LoginPage} />
-                        <Route path="/register" component={RegisterPage} />
-                        <PrivateRoute path="/course" component={ProfCourse} />
+                        <PrivateRoute exact path="/" component={StudDisciplines} />
+                        <Route exact path="/landing" component={HomePage} />
+                        <Route exact path="/login" component={LoginPage} />
+                        <Route exact path="/register" component={RegisterPage} />
+                        <PrivateRoute exact path="/disciplines" component={StudDisciplines} />
                     </React.Fragment>
                 </Router>
             </React.Fragment>
