@@ -7,6 +7,7 @@ import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
+import { RegisterPage } from '../RegisterPage';
 import { ProfCourse } from '../ProfCourse';
 
 class App extends React.Component {
@@ -23,18 +24,20 @@ class App extends React.Component {
     render() {
         const { alert } = this.props;
         return (
-            <div>
+            <React.Fragment>
                 {alert.message &&
                     <div className={`alert ${alert.type}`}>{alert.message}</div>
                 }
                 <Router history={history}>
-                    <div>
-                        <PrivateRoute exact path="/" component={HomePage} />
+                    <React.Fragment>
+                        <PrivateRoute exact path="/" component={ProfCourse} />
+                        <Route path="/landing" component={HomePage} />
                         <Route path="/login" component={LoginPage} />
-                        <Route path="/course" component={ProfCourse} />
-                    </div>
+                        <Route path="/register" component={RegisterPage} />
+                        <PrivateRoute path="/course" component={ProfCourse} />
+                    </React.Fragment>
                 </Router>
-            </div>
+            </React.Fragment>
         );
     }
 }

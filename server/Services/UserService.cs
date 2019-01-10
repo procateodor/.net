@@ -15,6 +15,7 @@ using WebApi.Helpers;
 namespace WebApi.Services {
     public interface IUserService {
         User Authenticate (string username, string password);
+        User Create(string username, string password, string firstname, string lastname);
         IEnumerable<User> GetAll ();
     }
 
@@ -26,8 +27,10 @@ namespace WebApi.Services {
 
         public UserService (IOptions<AppSettings> appSettings, IConfiguration config) {
             _appSettings = appSettings.Value;
+            var settings = MongoClientSettings
+                .FromUrl (MongoUrl.Create (config.GetConnectionString ("database")));
 
-            var client = new MongoClient (config.GetConnectionString ("database"));
+            var client = new MongoClient (settings);
             var database = client.GetDatabase ("dotnet");
             _users = database.GetCollection<User> ("Users");
         }
@@ -53,7 +56,40 @@ namespace WebApi.Services {
             var token = tokenHandler.CreateToken (tokenDescriptor);
             user.Token = tokenHandler.WriteToken (token);
 
-            _users.ReplaceOne(u => u.Id == user.Id, user);
+            _users.ReplaceOne (u => u.Id == user.Id, user);
+
+            // remove password before returning
+            user.Password = null;
+
+            return user;
+        }
+
+        public User Create (string username, string password, string firstname, string lastname) {
+            // var user = _users.Find<User> (u => u.Username == username && u.Password == password).FirstOrDefault ();
+
+            var user = new User(username, password, firstname, lastname);
+
+            _users.InsertOne(user);
+
+            // return null if user not found
+            if (user == null) {
+                return null;
+            }
+
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler ();
+            var key = Encoding.ASCII.GetBytes (_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor {
+                Subject = new ClaimsIdentity (new Claim[] {
+                new Claim (ClaimTypes.Name, user.Id.ToString ())
+                }),
+                Expires = DateTime.UtcNow.AddDays (7),
+                SigningCredentials = new SigningCredentials (new SymmetricSecurityKey (key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken (tokenDescriptor);
+            user.Token = tokenHandler.WriteToken (token);
+
+            _users.ReplaceOne (u => u.Id == user.Id, user);
 
             // remove password before returning
             user.Password = null;

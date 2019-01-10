@@ -1,0 +1,20 @@
+.add-submit {
+    margin-top: 20px;
+}
+
+p.name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.name {
+    display: inline-block;
+    position: relative;
+}
+
+.start-game {
+    position: absolute;
+    right: 5%;
+    top: 10%;
+}

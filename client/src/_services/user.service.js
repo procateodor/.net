@@ -4,7 +4,8 @@ import { authHeader } from '../_helpers';
 export const userService = {
     login,
     logout,
-    getAll
+    getAll,
+    register
 };
 
 function login(username, password) {
@@ -15,6 +16,26 @@ function login(username, password) {
     };
 
     return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // login successful if there's a jwt token in the response
+            if (user.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+
+            return user;
+        });
+}
+
+function register(username, password, firstname, lastname) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, firstname, lastname })
+    };
+
+    return fetch(`${config.apiUrl}/users/create`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a jwt token in the response
