@@ -1,0 +1,17 @@
+.card{
+    margin: 10px;
+    width: 50rem;
+}
+h3{
+    margin: 10px;
+}
+.card-title{
+    font-size: 24px;
+    font-weight: 600;
+}
+.card-text{
+    font-size: 16px;
+}
+.info{
+	font-size: 16px;
+}
