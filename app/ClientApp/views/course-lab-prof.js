@@ -3,7 +3,7 @@ $(document).ready(function () {
     var submitCourse=document.getElementsByClassName('submitCourse')[0];
     var descriptionCourse=document.getElementsByClassName('descriptionCourse')[0];
     var fileCourse=document.getElementById('fileCourse').files;
-
+    console.log(fileCourse);
     var titleLab=document.getElementById('input-titleLab');
     var submitLab=document.getElementsByClassName('submitLab')[0];
     var descriptionLab=document.getElementsByClassName('descriptionLab')[0];
@@ -42,6 +42,7 @@ $(document).ready(function () {
     
             var a=document.createElement('a');
             a.files=fileLab;
+            console.log(a.files);
             a.href = "";
             a.classList='pdf'
             if(a.files!=undefined)
