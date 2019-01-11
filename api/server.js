@@ -11,6 +11,8 @@ const port = config.port || 6969;
 // Connecting to the database
 const db = mongoose.connect(config.db);
 
+global._db = db;
+
 // setting body parser middleware 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

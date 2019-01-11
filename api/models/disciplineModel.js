@@ -5,6 +5,7 @@ module.exports = mongoose => {
         description: { type: String },
         updated: { type: Date, default: Date.now },
         year: { type: Number },
+        semester: { type: Number },
         credit: { type: Number },
         subscribers: { type: [String] }
     });
