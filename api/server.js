@@ -11,7 +11,19 @@ const port = config.port || 6969;
 // Connecting to the database
 const db = mongoose.connect(config.db);
 
+const DisciplineModel = require('./models/disciplineModel');
+const Discipline = DisciplineModel(mongoose);
+
+const CourseModel = require('./models/courseModel');
+const Course = CourseModel(mongoose);
+
+const LabModel = require('./models/labModel');
+const Lab = LabModel(mongoose);
+
 global._db = db;
+global.Discipline = Discipline;
+global.Course = Course;
+global.Lab = Lab;
 
 // setting body parser middleware 
 app.use(bodyParser.json());

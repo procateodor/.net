@@ -1,18 +1,53 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-
-const DisciplinesModel = require('../models/disciplineModel');
-const Discipline = DisciplinesModel(mongoose);
-
 
 router.get('/disciplines', (req, res) => {
     Discipline.find({}, (err, items) => {
         if (err) {
-            res.status(200).send({ status: false, items: [] });
+            return res.status(404).send({ status: false, items: [] });
         }
 
-        res.status(200).send({ status: true, items });
+        return res.status(200).send({ status: true, items });
+    });
+});
+
+router.post('/disciplines/sub', (req, res) => {
+    const { userId, id } = req.body;
+    
+    Discipline.findOne({_id: id}, (err, item) => {
+        if (err) {
+            return res.status(404).send({ status: false, items: [] });
+        }
+
+        item.subscribers.push(userId);
+
+        Discipline(item).save(err => {
+            if (err) {
+                return res.status(404).send({ status: false, items: [] });
+            }
+
+            return res.status(200).send(item);
+        });
+    });
+});
+
+router.post('/disciplines/unsub', (req, res) => {
+    const { userId, id } = req.body;
+    
+    Discipline.findOne({_id: id}, (err, item) => {
+        if (err) {
+            return res.status(404).send({ status: false, items: [] });
+        }
+
+        item.subscribers.splice(item.subscribers.indexOf(userId), 1);
+
+        Discipline(item).save(err => {
+            if (err) {
+                return res.status(404).send({ status: false, items: [] });
+            }
+
+            return res.status(200).send(item);
+        });
     });
 });
 

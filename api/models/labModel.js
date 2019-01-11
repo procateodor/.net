@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
+module.exports = mongoose => {
+    // Create a schema - like blueprint
+    const labSchema = new mongoose.Schema({
+        title: { type: String },
+        description: { type: String },
+        updated: { type: Date },
+        game: { type: Boolean },
+        path: { type: String }
+    });
 
-const Schema = mongoose.Schema;
+    const Lab = mongoose.model('Lab', labSchema);
 
-const labModel = new Schema({
-    title: { type: String },
-    description: { type: String },
-    updated: { type: Date },
-    game: { type: Boolean },
-    path: { type: String }
-});
-
-export default mongoose.model('Lab', labModel);
+    return Lab;
+}

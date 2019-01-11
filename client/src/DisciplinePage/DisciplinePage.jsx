@@ -3,40 +3,33 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from '../_actions';
 
-class StudDisciplines extends React.Component {
+class DisciplinePage extends React.Component {
     constructor(props) {
         super(props);
+
+        const { match: { params } } = this.props;
 
         const user = JSON.parse(localStorage.getItem('user'));
 
         this.state = {
-            year: 0,
-            semester: 0,
             userId: user.id,
-            prof: user.role === 1 ? true : false
+            prof: user.role === 1 ? true : false,
+            disciplineId: params.id,
+            details: {},
+            courses: [],
+            labs: []
         };
     }
 
     componentDidMount() {
-        if (this.state.prof) {
-            const requestOptions = {
-                method: 'get',
-                headers: { 'Content-Type': 'application/json' }
-            };
+        const requestOptions = {
+            method: 'get',
+            headers: { 'Content-Type': 'application/json' }
+        };
 
-            fetch(`http://127.0.0.1:6969/api/professor/disciplines?profId=${this.state.userId}`, requestOptions).then(this.handleResponse).then(items => {
-                this.setState({ ...items });
-            });
-        } else {
-            const requestOptions = {
-                method: 'get',
-                headers: { 'Content-Type': 'application/json' }
-            };
-
-            fetch(`http://127.0.0.1:6969/api/students/disciplines`, requestOptions).then(this.handleResponse).then(items => {
-                this.setState({ ...items });
-            });
-        }
+        fetch(`http://127.0.0.1:6969/api/professor/disciplines/${this.state.disciplineId}`, requestOptions).then(this.handleResponse).then(data => {
+            this.setState({ ...data });
+        });
     }
 
     updateSubscribe(e, id, sub) {
@@ -107,7 +100,7 @@ class StudDisciplines extends React.Component {
         const { items, year, semester, userId, prof } = this.state;
         return (
             <React.Fragment>
-                <link rel="stylesheet" href="/src/StudDisciplines/main.css" />
+                <link rel="stylesheet" href="/src/DisciplinePage/main.css" />
                 {!prof ? (
                     <React.Fragment>
                         <div className="container mt-4">
@@ -212,5 +205,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedStudDisciplines = connect(mapStateToProps)(StudDisciplines);
-export { connectedStudDisciplines as StudDisciplines };
+const connectedDisciplinePage = connect(mapStateToProps)(DisciplinePage);
+export { connectedDisciplinePage as DisciplinePage };

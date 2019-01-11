@@ -7,7 +7,10 @@ module.exports = mongoose => {
         year: { type: Number },
         semester: { type: Number },
         credit: { type: Number },
-        subscribers: { type: [String] }
+        subscribers: { type: [String] },
+        profId: { type: String },
+        courses: { type: [String] },
+        labs: { type: [String] }
     });
 
     const Discipline = mongoose.model('Discipline', disciplineSchema);

@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
+module.exports = mongoose => {
+    // Create a schema - like blueprint
+    const courseSchema = new mongoose.Schema({
+        title: { type: String },
+        description: { type: String },
+        updated: { type: Date },
+        game: { type: Boolean },
+        path: { type: String }
+    });
 
-const Schema = mongoose.Schema;
+    const Course = mongoose.model('Course', courseSchema);
 
-const courseModel = new Schema({
-    title: { type: String },
-    description: { type: String },
-    updated: { type: Date },
-    game: { type: Boolean },
-    path: { type: String }
-});
-
-export default mongoose.model('Course', courseModel);
+    return Course;
+}

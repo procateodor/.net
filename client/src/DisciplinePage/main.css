@@ -1,0 +1,10 @@
+.subscribe {
+    display: inline-block;
+    position: absolute;
+    right: 5%;
+    top: 8%;
+}
+
+.none {
+    display: none;
+}
