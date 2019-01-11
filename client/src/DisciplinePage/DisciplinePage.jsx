@@ -11,20 +11,42 @@ class DisciplinePage extends React.Component {
 
         const user = JSON.parse(localStorage.getItem('user'));
 
+        const items = [
+            {
+                title: 'Curs1',
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium minus tempora eaque!'
+            },
+            {
+                title: 'Lab1',
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium minus tempora eaque!',
+                quiz: true
+            },
+            {
+                title: 'Curs2',
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium minus tempora eaque!',
+                quiz: true
+            },
+            {
+                title: 'Lab2',
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium minus tempora eaque!'
+            }
+        ];
+
         this.state = {
             userId: user.id,
             prof: user.role === 1 ? true : false,
             disciplineId: params.id,
             details: {},
             courses: [],
-            labs: []
+            labs: [],
+            items
         };
     }
 
     componentDidMount() {
         const requestOptions = {
             method: 'get',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', }
         };
 
         fetch(`http://127.0.0.1:6969/api/professor/disciplines/${this.state.disciplineId}`, requestOptions).then(this.handleResponse).then(data => {
@@ -105,39 +127,20 @@ class DisciplinePage extends React.Component {
                     <React.Fragment>
                         <div className="container mt-4">
                             <div className="col-md-12">
-                                <h1 className="curs-title">Discipline de studiu</h1>
-                                <div className="form-group">
-                                    <div className="row mt-3">
-                                        <div className="col-md-2 mb-3">
-                                            <label>Select year:</label>
-                                            <select name="year" className="form-control" onChange={this.handleChange.bind(this)}>
-                                                <option value="0">All years</option>
-                                                <option value="1">First year</option>
-                                                <option value="2">Second year</option>
-                                                <option value="3">Third year</option>
-                                            </select>
-                                        </div>
-                                        <div className="col-md-2 mb-4">
-                                            <label>Select semester:</label>
-                                            <select name="semester" className="form-control " onChange={this.handleChange.bind(this)}>
-                                                <option value="0">All</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div className="row"><h1 className="curs-title">Courses and labs</h1></div>
                             </div>
                             <div className="row">
+                                <div className="col-md-6"><h4>Courses</h4></div>
+                                <div className="col-md-6"><h4>Labs</h4></div>
                                 {items && items.map((e, key) => (
                                     <div className={year === 0 ? semester === 0 ? "col-sm-6 mb-3" : e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6 mb-3" : "col-sm-6 none" : e.year === year && e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none"} key={e._id}>
                                         <div className="materia1">
                                             <div className="card">
                                                 <div className="card-body">
-                                                    {e.subscribers.includes(userId) ? <button className="btn btn-sm btn-danger float-right" onClick={event => this.updateSubscribe(event, e._id, false)}>Unsubscribe</button> : <button className="btn btn-sm btn-success float-right" onClick={event => this.updateSubscribe(event, e._id, true)}>Subscribe</button>}
-                                                    <Link to={`/disciplines/${e._id}`}><h4 className="card-title">{e.title}</h4></Link>
+                                                    {e.quiz ? <button className="btn btn-sm btn-primary float-right">Enter quiz</button> : ''}
+                                                    <h4 className="card-title">{e.title}</h4>
                                                     <p className="description">{e.description}</p>
-                                                    <p className="info"> Year {e.year} | Semester {e.semester} | Credits {e.credit}</p>
+                                                    <div className="btn btn-success">Download</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,38 +153,20 @@ class DisciplinePage extends React.Component {
                         <React.Fragment>
                             <div className="container mt-4">
                                 <div className="col-md-12">
-                                    <div className="row"><h1 className="curs-title">My disciplines</h1></div>
-                                    <div className="form-group">
-                                        <div className="row mt-3">
-                                            <div className="col-md-2 mb-3">
-                                                <label>Select year:</label>
-                                                <select name="year" className="form-control" onChange={this.handleChange.bind(this)}>
-                                                    <option value="0">All years</option>
-                                                    <option value="1">First year</option>
-                                                    <option value="2">Second year</option>
-                                                    <option value="3">Third year</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-md-2 mb-4">
-                                                <label>Select semester:</label>
-                                                <select name="semester" className="form-control " onChange={this.handleChange.bind(this)}>
-                                                    <option value="0">All</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div className="row"><h1 className="curs-title">Courses and labs</h1></div>
                                 </div>
                                 <div className="row">
+                                    <div className="col-md-6"><h4>Courses</h4></div>
+                                    <div className="col-md-6"><h4>Labs</h4></div>
                                     {items && items.map((e, key) => (
                                         <div className={year === 0 ? semester === 0 ? "col-sm-6 mb-3" : e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6 mb-3" : "col-sm-6 none" : e.year === year && e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none"} key={e._id}>
                                             <div className="materia1">
                                                 <div className="card">
                                                     <div className="card-body">
-                                                        <Link to={`/disciplines/${e._id}`}><h4 className="card-title">{e.title}</h4></Link>
+                                                        <button className="btn btn-sm btn-primary float-right">Create quiz</button>
+                                                        <h4 className="card-title">{e.title}</h4>
                                                         <p className="description">{e.description}</p>
-                                                        <p className="info"> Year {e.year} | Semester {e.semester} | Credits {e.credit}</p>
+                                                        <div className="btn btn-success">Download</div>
                                                     </div>
                                                 </div>
                                             </div>

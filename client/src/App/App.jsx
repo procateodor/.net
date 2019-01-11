@@ -10,6 +10,7 @@ import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import { StudDisciplines } from '../StudDisciplines';
 import { DisciplinePage } from '../DisciplinePage';
+import { DashboardPage } from '../DashboardPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class App extends React.Component {
                 }
                 <Router history={history}>
                     <React.Fragment>
-                        <PrivateRoute exact path="/" component={StudDisciplines} />
+                        <PrivateRoute exact path="/" component={DashboardPage} />
                         <Route path="/landing" component={HomePage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />

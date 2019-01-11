@@ -20,11 +20,23 @@ function getCourse(_id) {
             if (err) {
                 reject(null);
             }
-            
+
             resolve(course);
         });
     });
 }
+
+router.get('/disciplines', (req, res) => {
+    const { profId } = req.query;
+
+    Discipline.find({ profId }, (err, items) => {
+        if (err) {
+            return res.status(404).send({ status: false, items: [] });
+        }
+
+        return res.status(200).send({ status: true, items });
+    });
+});
 
 router.get('/disciplines/:id', (req, res) => {
     const { id } = req.params;
@@ -41,8 +53,6 @@ router.get('/disciplines/:id', (req, res) => {
         }
 
         item.courses.forEach(async coursId => {
-            console.log(coursId);
-            
             const course = await getCourse(coursId);
 
             if (course) {
@@ -57,9 +67,6 @@ router.get('/disciplines/:id', (req, res) => {
                 response.labs.push(lab);
             }
         });
-
-        console.log(response);
-
 
         return res.status(200).send({ status: true, item });
     });

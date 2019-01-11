@@ -112,7 +112,7 @@ class StudDisciplines extends React.Component {
                     <React.Fragment>
                         <div className="container mt-4">
                             <div className="col-md-12">
-                                <h1 className="curs-title">Discipline de studiu</h1>
+                                <div className="row"><h1 className="curs-title">My disciplines</h1></div>
                                 <div className="form-group">
                                     <div className="row mt-3">
                                         <div className="col-md-2 mb-3">
