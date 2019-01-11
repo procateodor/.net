@@ -70,37 +70,42 @@ class StudDisciplines extends React.Component {
         return (
             <React.Fragment>
                 <link rel="stylesheet" href="/src/StudDisciplines/main.css" />
-                <div className="container mt-3">
+                <div className="container mt-4">
                     <div className="col-md-12">
                         <h1 className="curs-title">Discipline de studiu</h1>
                         <div className="form-group">
-                            <button type="button" className="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selecteaza anul:</button>
-                            <select name="year" onChange={this.handleChange.bind(this)}>
+                        <div className="row mt-3">
+                        <div className="col-md-2 mb-3">
+                        <label>Select year:</label>
+                            <select name="year" className="form-control" onChange={this.handleChange.bind(this)}>
+                                <option value="0">All years</option>
+                                <option value="1">First year</option>
+                                <option value="2">Second year</option>
+                                <option value="3">Third year</option>
+                            </select>
+                        </div>
+                        <div className="col-md-2 mb-4">
+                        <label>Select semester:</label>
+                            <select name="semester" class="form-control " onChange={this.handleChange.bind(this)}>
                                 <option value="0">All</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
-                                <option value="3">3</option>
                             </select>
-                            <br />
-                            <label>Selecteaza semestrul:</label>
-                            <select name="semester" onChange={this.handleChange.bind(this)}>
-                                <option value="0">All</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-
-                            </select>
+                        </div>
+                        </div>
+                        
                         </div>
                     </div>
                     <div className="row">
                         {items && items.map((e, key) => (
-                            <div className={year === 0 ? semester === 0 ? "col-sm-6" : e.semester === semester ? "col-sm-6" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6" : "col-sm-6 none" : e.year === year && e.semester === semester ?  "col-sm-6" : "col-sm-6 none"} key={key}>
+                            <div className={year === 0 ? semester === 0 ? "col-sm-6 mb-3" : e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6 mb-3" : "col-sm-6 none" : e.year === year && e.semester === semester ?  "col-sm-6 mb-3" : "col-sm-6 none"} key={key}>
                                 <div className="materia1">
                                     <div className="card">
                                         <div className="card-body">
                                             <h4 className="card-title">{e.t1itle}</h4>
-                                            {e.subscribers.includes(userId)  ? <button className="btn btn-danger subscribe">Unsubscribe</button> : <button className="btn btn-success subscribe">Subscribe</button>}
+                                            {e.subscribers.includes(userId)  ? <button className="btn btn-sm btn-danger float-right">Unsubscribe</button> : <button className="btn btn-sm btn-success float-right">Subscribe</button>}
                                             <p className="description">{e.description}</p>
-                                            <p className="info"> AN {e.year}; SEMESTRU {e.semester}; Cerdits {e.credit}</p>
+                                            <p className="info"> Year {e.year} | Semester {e.semester} | Credits {e.credit}</p>
                                         </div>
                                     </div>
                                 </div>
