@@ -1,202 +1,111 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import { userActions } from '../_actions';
 
 class StudDisciplines extends React.Component {
-    componentDidMount() {
+    constructor(props) {
+        super(props);
+        const items = [
+            {
+                title: '1',
+                description: 'asdasfdasfasf',
+                updated: Date.now,
+                year: 1,
+                semester: 1,
+                credit: 5,
+                subscribers: ['asdasd']
+            },
+            {
+                title: '1',
+                description: 'asdasfdasfasf',
+                updated: Date.now,
+                year: 3,
+                semester: 1,
+                credit: 5,
+                subscribers: ['asdasd']
+            },
+            {
+                title: '1',
+                description: 'asdasfdasfasf',
+                updated: Date.now,
+                year: 2,
+                semester: 1,
+                credit: 5,
+                subscribers: ['asdasdasdasd']
+            },
+            {
+                title: '1',
+                description: 'asdasfdasfasf',
+                updated: Date.now,
+                year: 1,
+                semester: 2,
+                credit: 5,
+                subscribers: ['asdasdasd']
+            }
+        ];
+        this.state = {
+            items,
+            year: 0,
+            semester: 0,
+            userId: 'asdasd'
+        };
+    }
+    componentWillMount() {
+        // const items = this.props.dispatch(userActions.getStudDisciplines());
+       
+        // this.setState({
+        //     ...items
+        // });
+    }
 
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: parseInt(e.target.value)
+        });  
     }
 
     render() {
+        const { items, year, semester, userId } = this.state;
         return (
             <React.Fragment>
                 <link rel="stylesheet" href="/src/StudDisciplines/main.css" />
-                <div className="container">
+                <div className="container mt-3">
                     <div className="col-md-12">
                         <h1 className="curs-title">Discipline de studiu</h1>
                         <div className="form-group">
-                            <label>Selecteaza anul:</label>
-                            <select name="cars">
-                                <option value="anul1">1</option>
-                                <option value="anul2">2</option>
-                                <option value="anul3">3</option>
+                            <button type="button" className="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selecteaza anul:</button>
+                            <select name="year" onChange={this.handleChange.bind(this)}>
+                                <option value="0">All</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
                             </select>
                             <br />
                             <label>Selecteaza semestrul:</label>
-                            <select name="semestru">
-                                <option value="semestru1">1</option>
-                                <option value="semestru2">2</option>
+                            <select name="semester" onChange={this.handleChange.bind(this)}>
+                                <option value="0">All</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
 
                             </select>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-sm-6">
-                            <div className="materia1">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Introducere in programare</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis, aspernatur illum beatae
-                                            architecto cum vel velit dignissimos quae voluptate nesciunt perspiciatis nulla error! Quo
-                                assumenda fugit suscipit illo rem laboriosam.</p>
-                                        <p className="info"> AN 1; SEMESTRU 1 </p>
+                        {items && items.map((e, key) => (
+                            <div className={year === 0 ? semester === 0 ? "col-sm-6" : e.semester === semester ? "col-sm-6" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6" : "col-sm-6 none" : e.year === year && e.semester === semester ?  "col-sm-6" : "col-sm-6 none"} key={key}>
+                                <div className="materia1">
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <h4 className="card-title">{e.t1itle}</h4>
+                                            {e.subscribers.includes(userId)  ? <button className="btn btn-danger subscribe">Unsubscribe</button> : <button className="btn btn-success subscribe">Subscribe</button>}
+                                            <p className="description">{e.description}</p>
+                                            <p className="info"> AN {e.year}; SEMESTRU {e.semester}; Cerdits {e.credit}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <br />
-                            <div className="materia2">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Logica pentru informatica</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis, aspernatur illum beatae
-                                            architecto cum vel velit dignissimos quae voluptate nesciunt perspiciatis nulla error! Quo
-                                assumenda fugit suscipit illo rem laboriosam.</p>
-                                        <p className="info"> AN 1; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia3">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Matematica</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis quidem iure explicabo vitae expedita
-                                            vero quo, asperiores necessitatibus blanditiis excepturi nam dicta dolorum aperiam consequuntur,
-                                reprehenderit voluptatibus suscipit repellendus reiciendis!</p>
-                                        <p className="info"> AN 1; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia4">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Structuri de date</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit excepturi rem optio quaerat
-                                            ad laborum corrupti ipsum veritatis odit beatae nam, eum earum sequi cumque error hic amet
-                                            incidunt non?
-                            </p>
-                                        <p className="info"> AN 1; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia5">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Inteligenta artificiala</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae nam doloribus fuga perspiciatis
-                                            unde, dignissimos deserunt libero minus voluptas eligendi voluptates optio iure aliquid officia
-                                            rerum, similique nulla odit sapiente!
-                            </p>
-                                        <p className="info"> AN 3; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia6">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Limba engleza I</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque eos qui tempora minima reiciendis
-                                            sed fugit exercitationem, quo natus beatae pariatur minus consequuntur illo! In non rerum
-                                            fuga atque odio!
-                            </p>
-                                        <p className="info"> AN 1; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-sm-6">
-                            <div className="materia7">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Programare orientata obiect</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque eos qui tempora minima reiciendis
-                                            sed fugit exercitationem, quo natus beatae pariatur minus consequuntur illo! In non rerum
-                                            fuga atque odio!
-                            </p>
-                                        <p className="info"> AN 1; SEMESTRU 2 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia8">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Tehnologii Web</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis, aspernatur illum beatae
-                                            architecto cum vel velit dignissimos quae voluptate nesciunt perspiciatis nulla error! Quo
-                                assumenda fugit suscipit illo rem laboriosam.</p>
-                                        <p className="info"> AN 2; SEMESTRU 2 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia9">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Retele de calculatoare</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis quidem iure explicabo vitae expedita
-                                            vero quo, asperiores necessitatibus blanditiis excepturi nam dicta dolorum aperiam consequuntur,
-                                reprehenderit voluptatibus suscipit repellendus reiciendis!</p>
-                                        <p className="info"> AN 2; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia10">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Algoritmica grafurilor</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit excepturi rem optio quaerat
-                                            ad laborum corrupti ipsum veritatis odit beatae nam, eum earum sequi cumque error hic amet
-                                            incidunt non?
-                            </p>
-                                        <p className="info"> AN 2; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia11">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Securitatea informatiei</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae nam doloribus fuga perspiciatis
-                                            unde, dignissimos deserunt libero minus voluptas eligendi voluptates optio iure aliquid officia
-                                rerum, similique nulla odit sapiente!</p>
-                                        <p className="info"> AN 3; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div className="materia12">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h4 className="card-title">Limba engleza III</h4>
-                                        <button className="btn btn-primary subscribe">Subscribe</button>
-                                        <p className="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque eos qui tempora minima reiciendis
-                                            sed fugit exercitationem, quo natus beatae pariatur minus consequuntur illo! In non rerum
-                                fuga atque odio!</p>
-                                        <p className="info"> AN 2; SEMESTRU 1 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </React.Fragment>

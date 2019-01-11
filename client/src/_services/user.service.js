@@ -5,7 +5,8 @@ export const userService = {
     login,
     logout,
     getAll,
-    register
+    register,
+    getStudDisciplines
 };
 
 function login(username, password) {
@@ -45,6 +46,19 @@ function register(username, password, firstname, lastname) {
             }
 
             return user;
+        });
+}
+
+function getStudDisciplines() {
+    const requestOptions = {
+        method: 'get',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    return fetch(`${config.apiNode}/api/students/disciplines`, requestOptions)
+        .then(handleResponse)
+        .then(disciplines => {
+            return disciplines;
         });
 }
 
