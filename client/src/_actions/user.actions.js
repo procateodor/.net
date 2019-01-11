@@ -7,7 +7,8 @@ export const userActions = {
     login,
     logout,
     getAll,
-    register
+    register,
+    getStudDisciplines
 };
 
 function login(username, password) {
@@ -16,7 +17,7 @@ function login(username, password) {
 
         userService.login(username, password)
             .then(
-                user => { 
+                user => {
                     dispatch(success(user));
                     history.push('/');
                 },
@@ -38,7 +39,7 @@ function register(username, password, firstname, lastname) {
 
         userService.register(username, password, firstname, lastname)
             .then(
-                user => { 
+                user => {
                     dispatch(success(user));
                     history.push('/');
                 },
@@ -52,6 +53,12 @@ function register(username, password, firstname, lastname) {
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+}
+
+function getStudDisciplines() {
+    userService.getStudDisciplines().then(disciplines => {
+        return disciplines;
+    });
 }
 
 function logout() {
