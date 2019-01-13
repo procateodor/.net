@@ -10,17 +10,20 @@
     "start": "webpack-dev-server --open"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "css-loader": "^2.1.0",
     "history": "^4.6.3",
     "react": "^16.0.0",
     "react-css-modules": "^4.7.9",
     "react-dom": "^16.0.0",
+    "react-download-link": "^2.2.0",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
     "react-server": "^0.8.1",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
+    "sha256": "^0.2.0",
     "style-loader": "^0.23.1"
   },
   "devDependencies": {

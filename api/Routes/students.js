@@ -51,4 +51,22 @@ router.post('/disciplines/unsub', (req, res) => {
     });
 });
 
+router.get('/disciplines/:id/:quizId/answer', (req, res) => {
+    const { quizId } = req.params;
+    const { userId } = req.query;
+
+    Answer.findOne({ userId, quizId }, (err, data) => {
+        if (err) {
+            return res.json({
+                success: false
+            });
+        }
+
+        return res.json({
+            success: true,
+            data
+        });
+    })
+});
+
 module.exports = router;

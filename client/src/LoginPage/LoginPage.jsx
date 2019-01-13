@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
 
+import sha256 from "crypto-js/sha256";
+
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -31,7 +33,7 @@ class LoginPage extends React.Component {
         const { username, password } = this.state;
         const { dispatch } = this.props;
         if (username && password) {
-            dispatch(userActions.login(username, password));
+            dispatch(userActions.login(username, sha256(password).toString()));
         }
     }
 
@@ -39,7 +41,7 @@ class LoginPage extends React.Component {
         const { username, password } = this.state;
         return (
             <React.Fragment>
-                <link rel="stylesheet" href="/src/LoginPage/main.css"/>
+                <link rel="stylesheet" href="/src/LoginPage/main.css" />
                 <div className="signin" id="sign-up">
                     <div className="signin--main-container">
                         <div className="signin--image">
@@ -64,7 +66,7 @@ class LoginPage extends React.Component {
                                 </fieldset>
 
                                 <div className="signin--footer-form">
-                                    <button className="signin--submit-btn" id="signin--submit-btn">
+                                    <button type="submit" className="signin--submit-btn" id="signin--submit-btn">
                                         <h1>Sign In</h1>
                                         <i id="signin--ok" className="fas fa-check signin--ok"></i>
                                     </button>

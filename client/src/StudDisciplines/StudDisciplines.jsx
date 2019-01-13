@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from '../_actions';
 
+import { Navbar } from '../Navbar';
+
 class StudDisciplines extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +15,10 @@ class StudDisciplines extends React.Component {
             year: 0,
             semester: 0,
             userId: user.id,
-            prof: user.role === 1 ? true : false
+            prof: user.role === 1 ? true : false,
+            user,
+            edit: 0,
+            items: []
         };
     }
 
@@ -37,6 +42,110 @@ class StudDisciplines extends React.Component {
                 this.setState({ ...items });
             });
         }
+    }
+
+    startEdit(item) {
+        this.setState({
+            edit: item._id
+        });
+
+        document.getElementById('titleEdit').value = item.title;
+        document.getElementById('descriptionEdit').value = item.description;
+        document.getElementById('yearEdit').value = item.year;
+        document.getElementById('semesterEdit').value = item.semester;
+        document.getElementById('creditEdit').value = item.credit;
+    }
+
+    handleDelete(id) {
+        const requestOptions = {
+            method: 'delete',
+            headers: { 'Content-Type': 'application/json' }
+        };
+
+        fetch(`http://127.0.0.1:6969/api/professor/disciplines/${id}`, requestOptions).then(this.handleResponse).then(response => {
+            if (response.success) {
+                const items = this.state.items;
+
+                items.forEach((item, index) => {
+                    if (item._id === id) {
+                        items.splice(index, 1);
+                    }
+                });
+
+                this.setState({ ...items });
+            }
+        });
+    }
+
+    handleAdd() {
+        const data = {
+            title: document.getElementById('titleAdd').value,
+            description: document.getElementById('descriptionAdd').value,
+            year: parseInt(document.getElementById('yearAdd').value),
+            semester: parseInt(document.getElementById('semesterAdd').value),
+            credit: parseInt(document.getElementById('creditAdd').value),
+            profId: this.state.userId
+        };
+
+        const requestOptions = {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+
+        fetch(`http://127.0.0.1:6969/api/professor/disciplines`, requestOptions).then(this.handleResponse).then(response => {
+            if (response.success) {
+                const items = this.state.items;
+                items.push(response.data);
+
+                this.setState({ ...items });
+
+                document.getElementById('titleAdd').value = '';
+                document.getElementById('descriptionAdd').value = '';
+                document.getElementById('yearAdd').value = '';
+                document.getElementById('semesterAdd').value = '';
+                document.getElementById('creditAdd').value = '';
+
+                document.getElementById('closeModal2').click();
+            }
+        });
+    }
+
+    handleEdit() {
+        const data = {
+            _id: this.state.edit,
+            title: document.getElementById('titleEdit').value,
+            description: document.getElementById('descriptionEdit').value,
+            year: parseInt(document.getElementById('yearEdit').value),
+            semester: parseInt(document.getElementById('semesterEdit').value),
+            credit: parseInt(document.getElementById('creditEdit').value),
+        };
+
+        const requestOptions = {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+
+        fetch(`http://127.0.0.1:6969/api/professor/disciplines`, requestOptions).then(this.handleResponse).then(response => {
+            if (response.success) {
+                let items = this.state.items;
+
+                items.forEach(item => {
+                    if (item._id === this.state.edit) {
+                        item.title = document.getElementById('titleEdit').value;
+                        item.description = document.getElementById('descriptionEdit').value;
+                        item.year = document.getElementById('yearEdit').value;
+                        item.semester = document.getElementById('semesterEdit').value;
+                        item.credit = document.getElementById('creditEdit').value;
+                    }
+                });
+
+                this.setState({ items });
+
+                document.getElementById('closeModal').click();
+            }
+        });
     }
 
     updateSubscribe(e, id, sub) {
@@ -104,15 +213,16 @@ class StudDisciplines extends React.Component {
     }
 
     render() {
-        const { items, year, semester, userId, prof } = this.state;
+        const { items, year, semester, userId, prof, user } = this.state;
         return (
             <React.Fragment>
+                <Navbar logged={true} prof={prof} history={this.props.history} user={user} />
                 <link rel="stylesheet" href="/src/StudDisciplines/main.css" />
                 {!prof ? (
                     <React.Fragment>
                         <div className="container mt-4">
                             <div className="col-md-12">
-                                <div className="row"><h1 className="curs-title">My disciplines</h1></div>
+                                <div className="row"><h1 className="curs-title">Disciplines</h1></div>
                                 <div className="form-group">
                                     <div className="row mt-3">
                                         <div className="col-md-2 mb-3">
@@ -137,14 +247,20 @@ class StudDisciplines extends React.Component {
                             </div>
                             <div className="row">
                                 {items && items.map((e, key) => (
-                                    <div className={year === 0 ? semester === 0 ? "col-sm-6 mb-3" : e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6 mb-3" : "col-sm-6 none" : e.year === year && e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none"} key={e._id}>
+                                    <div className={year === 0 ? semester === 0 ? "col-sm-6 mb-3" : e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6 mb-3" : "col-sm-6 none" : e.year === year && e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none"} key={key}>
                                         <div className="materia1">
                                             <div className="card">
                                                 <div className="card-body">
                                                     {e.subscribers.includes(userId) ? <button className="btn btn-sm btn-danger float-right" onClick={event => this.updateSubscribe(event, e._id, false)}>Unsubscribe</button> : <button className="btn btn-sm btn-success float-right" onClick={event => this.updateSubscribe(event, e._id, true)}>Subscribe</button>}
-                                                    <Link to={`/disciplines/${e._id}`}><h4 className="card-title">{e.title}</h4></Link>
+                                                    <Link to={`/disciplines/${e._id}`}>
+                                                        <h4 className="card-title">{e.title}</h4>
+                                                    </Link>
                                                     <p className="description">{e.description}</p>
-                                                    <p className="info"> Year {e.year} | Semester {e.semester} | Credits {e.credit}</p>
+                                                    <div className="row">
+                                                        <div className="col-md-4">Year: {e.year}</div>
+                                                        <div style={{ textAlign: 'center' }} className="col-md-4">Semester: {e.semester}</div>
+                                                        <div style={{ textAlign: 'right' }} className="col-md-4">Credit: {e.credit}</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -180,20 +296,127 @@ class StudDisciplines extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row">
+                                <div className="row" id="discContainer">
                                     {items && items.map((e, key) => (
-                                        <div className={year === 0 ? semester === 0 ? "col-sm-6 mb-3" : e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6 mb-3" : "col-sm-6 none" : e.year === year && e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none"} key={e._id}>
+                                        <div className={year === 0 ? semester === 0 ? "col-sm-6 mb-3" : e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none" : semester === 0 ? e.year === year ? "col-sm-6 mb-3" : "col-sm-6 none" : e.year === year && e.semester === semester ? "col-sm-6 mb-3" : "col-sm-6 none"} key={key} id={e._id}>
                                             <div className="materia1">
                                                 <div className="card">
                                                     <div className="card-body">
-                                                        <Link to={`/disciplines/${e._id}`}><h4 className="card-title">{e.title}</h4></Link>
+                                                        <button className="btn btn-sm btn-danger float-right" onClick={() => this.handleDelete(e._id)}>Delete</button>
+                                                        <button className="btn btn-sm btn-success float-right mr-1" data-toggle="modal" data-target="#editModal" onClick={() => this.startEdit(e)}>Edit</button>
+                                                        <Link to={`/disciplines/${e._id}`}>
+                                                            <h4 className="card-title title">{e.title}</h4>
+                                                        </Link>
                                                         <p className="description">{e.description}</p>
-                                                        <p className="info"> Year {e.year} | Semester {e.semester} | Credits {e.credit}</p>
+                                                        <div className="row">
+                                                            <div className="col-md-4 year">Year: {e.year}</div>
+                                                            <div style={{ textAlign: 'center' }} className="col-md-4 semester">Semester: {e.semester}</div>
+                                                            <div style={{ textAlign: 'right' }} className="col-md-4 credit">Credit: {e.credit}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     ))}
+                                    <div id="addDiscContainer" className="col-sm-6 text-center">
+                                        <button data-toggle="modal" data-target="#addModal" className="btn btn-primary addDisc">Add new discipline</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div className="modal-dialog modal-dialog-centered" role="document">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title" id="exampleModalLongTitle">Edit discipline</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <input type="hidden" id="discId" />
+                                            <div className="form-group">
+                                                <label htmlFor="titleEdit">Title</label>
+                                                <textarea placeholder="Title.." className="form-control" id="titleEdit" rows="1"></textarea>
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="descriptionEdit">Description</label>
+                                                <textarea placeholder="Description.." className="form-control" id="descriptionEdit" rows="3"></textarea>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="yearEdit">Year</label>
+                                                        <input type="number" className="form-control" id="yearEdit" placeholder="Year.." />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="semesterEdit">Semester</label>
+                                                        <input type="number" className="form-control" id="semesterEdit" placeholder="Semester.." />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="creditEdit">Credit</label>
+                                                        <input type="number" className="form-control" id="creditEdit" placeholder="Credit.." />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button id="closeModal" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" className="btn btn-primary" onClick={() => this.handleEdit()}>Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="modal fade" id="addModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div className="modal-dialog modal-dialog-centered" role="document">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title" id="exampleModalLongTitle">Add discipline</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <input type="hidden" id="discId" />
+                                            <div className="form-group">
+                                                <label htmlFor="titleAdd">Title</label>
+                                                <textarea placeholder="Title.." className="form-control" id="titleAdd" rows="1"></textarea>
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="descriptionAdd">Description</label>
+                                                <textarea placeholder="Description.." className="form-control" id="descriptionAdd" rows="3"></textarea>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="yearAdd">Year</label>
+                                                        <input type="number" className="form-control" id="yearAdd" placeholder="Year.." />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="semesterAdd">Semester</label>
+                                                        <input type="number" className="form-control" id="semesterAdd" placeholder="Semester.." />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="creditAdd">Credit</label>
+                                                        <input type="number" className="form-control" id="creditAdd" placeholder="Credit.." />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button id="closeModal2" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" className="btn btn-primary" onClick={() => this.handleAdd()}>Save changes</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </React.Fragment>

@@ -3,12 +3,14 @@ module.exports = mongoose => {
     const courseSchema = new mongoose.Schema({
         title: { type: String },
         description: { type: String },
-        updated: { type: Date },
-        game: { type: Boolean },
-        path: { type: String }
+        updated: { type: Date, default: Date.now },
+        game: { type: Boolean, default: false },
+        gameId: {type: String, default: ''},
+        path: { type: String },
+        disciplineId: { type: String }
     });
 
-    const Course = mongoose.model('Course', courseSchema);
+    const Course = mongoose.model('Courses', courseSchema);
 
     return Course;
 }

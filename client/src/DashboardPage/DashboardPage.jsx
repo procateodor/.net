@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from '../_actions';
+
+import { Navbar } from '../Navbar';
 
 class DashboardPage extends React.Component {
     constructor(props) {
@@ -17,18 +19,20 @@ class DashboardPage extends React.Component {
             disciplineId: params.id,
             details: {},
             courses: [],
-            labs: []
+            labs: [],
+            user
         };
     }
 
     render() {
-        const { prof } = this.state;
+        const { prof, user } = this.state;
         return (
             <React.Fragment>
+                <Navbar logged={true} prof={prof} history={this.props.history} user={user} />
                 {prof ? (
                     <div className="container mt-4">
                         <div className="col-md-12">
-                            <h3>Professor Dashboard</h3>
+                            <div className="row"><h3>Professor Dashboard</h3></div>
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="row">
@@ -56,7 +60,7 @@ class DashboardPage extends React.Component {
                 ) : (
                         <div className="container mt-4">
                             <div className="col-md-12">
-                                <h3>Student Dashboard</h3>
+                                <div className="row"><h3>Student Dashboard</h3></div>
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="row">

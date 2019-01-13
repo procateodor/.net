@@ -11,6 +11,7 @@ import { RegisterPage } from '../RegisterPage';
 import { StudDisciplines } from '../StudDisciplines';
 import { DisciplinePage } from '../DisciplinePage';
 import { DashboardPage } from '../DashboardPage';
+import {QuizPage} from '../QuizPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -27,7 +28,8 @@ class App extends React.Component {
         const { alert } = this.props;
         return (
             <React.Fragment>
-                {alert.message &&
+                {
+                    alert.message &&
                     <div className={`alert ${alert.type}`}>{alert.message}</div>
                 }
                 <Router history={history}>
@@ -37,7 +39,8 @@ class App extends React.Component {
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <PrivateRoute exact path="/disciplines" component={StudDisciplines} />
-                        <PrivateRoute path="/disciplines/:id" component={DisciplinePage} />
+                        <PrivateRoute exact path="/disciplines/:id" component={DisciplinePage} />
+                        <PrivateRoute exact path="/disciplines/:id/:quizId" component={QuizPage} />
                     </React.Fragment>
                 </Router>
             </React.Fragment>

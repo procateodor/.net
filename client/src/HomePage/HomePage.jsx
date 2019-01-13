@@ -2,33 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { Navbar } from '../Navbar';
+
 import { userActions } from '../_actions';
 
 class HomePage extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <link rel="stylesheet" href="/src/HomePage/main.css"/>
-                <div className="container">
-                    <nav id="navContainer">
-                        <div className="row">
-                            <div className="col-lg-6 col-md-8">
-                                <ul id="rightMenu">
-                                    <li><a href="/">Home</a></li>
-                                    <li><a href="/">How it works</a></li>
-                                    <li><a href="/">Despre</a></li>
-                                    <li><a href="/">Contact</a></li>
-                                </ul>
-                            </div>
-                            <div className="col-lg-6 col-md-4">
-                                <ul id="leftMenu">
-                                    <li><Link to='/login'>Login</Link></li>
-                                    <li><Link to='/register'>Register</Link></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
+                <link rel="stylesheet" href="/src/HomePage/main.css" />
+                <Navbar logged={false} />
 
                 <div className="container">
                     <img src="/src/HomePage/images/1.svg" alt="1" id="sign1" />

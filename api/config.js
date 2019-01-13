@@ -1,4 +1,4 @@
 module.exports = {
-    db: 'mongodb://localhost:27017/dotnet',
+    db: 'mongodb+srv://asii:1234@cluster0-vliit.mongodb.net/dotnet',
     port: 6969
 }

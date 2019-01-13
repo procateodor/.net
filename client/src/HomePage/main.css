@@ -293,3 +293,15 @@ ul {
     margin-top: 80px;
     padding: 30px 0;
 }
+
+textarea.edit-fields {
+    width: 100%;
+}
+
+.wrong-answer {
+    color: rgb(223, 18, 18);
+}
+
+.right-answer {
+    color: rgb(19, 155, 19);
+}

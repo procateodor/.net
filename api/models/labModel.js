@@ -3,12 +3,14 @@ module.exports = mongoose => {
     const labSchema = new mongoose.Schema({
         title: { type: String },
         description: { type: String },
-        updated: { type: Date },
-        game: { type: Boolean },
-        path: { type: String }
+        updated: { type: Date, default: Date.now },
+        game: { type: Boolean, default: false },
+        gameId: {type: String, default: ''},
+        path: { type: String, },
+        disciplineId: { type: String }
     });
 
-    const Lab = mongoose.model('Lab', labSchema);
+    const Lab = mongoose.model('Labs', labSchema);
 
     return Lab;
 }

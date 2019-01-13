@@ -32,7 +32,7 @@ namespace WebApi.Services {
 
             var client = new MongoClient (settings);
             var database = client.GetDatabase ("dotnet");
-            _users = database.GetCollection<User> ("Users");
+            _users = database.GetCollection<User> ("users");
         }
 
         public User Authenticate (string username, string password) {
@@ -65,7 +65,12 @@ namespace WebApi.Services {
         }
 
         public User Create (string username, string password, string firstname, string lastname) {
-            // var user = _users.Find<User> (u => u.Username == username && u.Password == password).FirstOrDefault ();
+            var find = _users.Find<User> (u => u.Username == username).FirstOrDefault ();
+
+            if (find != null)
+            {
+                return null;
+            }
 
             var user = new User(username, password, firstname, lastname);
 

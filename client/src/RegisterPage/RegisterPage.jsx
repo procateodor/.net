@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
 
+import sha256 from 'crypto-js/sha256';
+
 class RegisterPage extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +36,7 @@ class RegisterPage extends React.Component {
         const { username, password, repassword, firstname, lastname } = this.state;
         const { dispatch } = this.props;
         if ((username && password && repassword && firstname && lastname) && (password === repassword)) {
-            dispatch(userActions.register(username, password, firstname, lastname));
+            dispatch(userActions.register(username, sha256(password).toString(), firstname, lastname));
         }
     }
 
@@ -86,7 +88,7 @@ class RegisterPage extends React.Component {
                                 </fieldset>
 
                                 <div className="form-footer">
-                                    <button className="signup--submit-btn" id="signup--submit-btn">
+                                    <button type="submit" className="signup--submit-btn" id="signup--submit-btn">
                                         <h1>Register</h1>
                                         <i className="fas fa-check signup--ok"></i>
                                     </button>
