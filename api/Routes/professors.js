@@ -49,6 +49,10 @@ router.get('/disciplines', (req, res) => {
     });
 });
 
+router.post('/studsReport', (req, res) => {
+    console.log("hai ca merge treaba");
+})
+
 router.put('/disciplines', (req, res) => {
     const item = req.body;
 

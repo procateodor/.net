@@ -111,6 +111,21 @@ class StudDisciplines extends React.Component {
         });
     }
 
+    downloadReport(courseId) {
+        const data = {
+            course_id: courseId 
+        }
+        const requestOptions = {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }
+        fetch(`http://127.0.0.1:6969/api/professor/studsReport`, requestOptions).then(this.handleResponse).then(response => {
+
+        })
+        
+    }
+
     handleEdit() {
         const data = {
             _id: this.state.edit,
@@ -302,6 +317,7 @@ class StudDisciplines extends React.Component {
                                             <div className="materia1">
                                                 <div className="card">
                                                     <div className="card-body">
+                                                        <button className="btn btn-sm btn-primary float-right ml-1" onClick={() => this.downloadReport(e._id)}>Download report</button>
                                                         <button className="btn btn-sm btn-danger float-right" onClick={() => this.handleDelete(e._id)}>Delete</button>
                                                         <button className="btn btn-sm btn-success float-right mr-1" data-toggle="modal" data-target="#editModal" onClick={() => this.startEdit(e)}>Edit</button>
                                                         <Link to={`/disciplines/${e._id}`}>
