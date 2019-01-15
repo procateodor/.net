@@ -28,7 +28,7 @@ namespace WebApi.Controllers {
         [AllowAnonymous]
         [HttpPost ("create")]
         public IActionResult Create ([FromBody] User userParam) {
-            var user = _userService.Create (userParam.Username, userParam.Password, userParam.FirstName, userParam.LastName);
+            var user = _userService.Create (userParam.Username, userParam.Password, userParam.FirstName, userParam.LastName, userParam.Group);
 
             if (user == null)
                 return BadRequest (new { message = "Data is incorrect" });

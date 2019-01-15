@@ -49,9 +49,64 @@ router.get('/disciplines', (req, res) => {
     });
 });
 
-router.post('/studsReport', (req, res) => {
-    console.log("hai ca merge treaba");
-})
+router.post('/studsReport', async (req, res) => {
+    const { course_id } = req.body;
+
+    try {
+        const answers = await Answer.find({disciplineId: course_id});
+        let answersMap = new Map();
+        
+        answers.forEach(answer => {
+            if (answersMap.has(answer.userId)) {
+                answer.responses.forEach(response => {
+                    let current = answersMap.get(answer.userId);
+
+                    response.status === 'right' ? current.r++ : current.w++;
+
+                    answersMap.set(answer.userId, current);
+                });
+            } else {
+                answersMap.set(answer.userId, {
+                    r: 0,
+                    w: 0
+                });
+
+                answer.responses.forEach(response => {
+                    let current = answersMap.get(answer.userId);
+
+                    response.status === 'right' ? current.r++ : current.w++;
+
+                    answersMap.set(answer.userId, current);
+                });
+            }
+        });
+
+        let fullText = '';
+
+        for(const [key, value] of answersMap) {
+            const user = await User.findOne({_id: key});
+
+            fullText += `${user.LastName} ${user.FirstName} ${user.Group} ${value.r} Right answers ${value.w} Wrong answers\n`;
+        }
+
+        const path = `/upload/${require('uuid/v4')()}.txt`;
+
+        if (!fullText) {
+            fullText += 'No data.'
+        }
+
+        require('fs').writeFileSync(`public${path}`, fullText);
+
+        return res.status(200).json({
+            success: true,
+            path
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false
+        });   
+    }
+});
 
 router.put('/disciplines', (req, res) => {
     const item = req.body;

@@ -111,19 +111,27 @@ class StudDisciplines extends React.Component {
         });
     }
 
-    downloadReport(courseId) {
+    downloadReport(course_id) {
         const data = {
-            course_id: courseId 
-        }
+            course_id
+        };
+
         const requestOptions = {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
-        }
-        fetch(`http://127.0.0.1:6969/api/professor/studsReport`, requestOptions).then(this.handleResponse).then(response => {
+        };
 
-        })
-        
+        fetch(`http://127.0.0.1:6969/api/professor/studsReport`, requestOptions).then(this.handleResponse).then(response => {
+            if (response.success) {
+                const requestOptions2 = {
+                    method: 'get',
+                    headers: { 'Content-Type': 'text/plain' }
+                };
+
+                fetch(`http://127.0.0.1:6969${response.path}`, requestOptions2).then(response => response.text()).then(response => require('react-file-download')(response, 'raport.txt'));
+            }
+        });
     }
 
     handleEdit() {

@@ -45,14 +45,14 @@ global.User = User;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static('public'));
-
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Methods", "*");
 	res.header("Access-Control-Allow-Headers", "*");
 	next();
 });
+
+app.use(express.static('public'));
 
 // API routes
 app.use('/api', routes);

@@ -26,13 +26,17 @@ namespace WebApi.Entities {
         [BsonElement ("Points")]
         public int Points { get; set; }
 
-        public User (string username, string password, string firstname, string lastname) {
+        [BsonElement ("Group")]
+        public string Group { get; set; }
+
+        public User (string username, string password, string firstname, string lastname, string group) {
             this.Username = username;
             this.Password = password;
             this.FirstName = firstname;
             this.LastName = lastname;
             this.Role = 0;
             this.Points = 0;
+            this.Group = group;
         }
     }
 }

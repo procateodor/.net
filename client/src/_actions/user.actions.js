@@ -33,11 +33,11 @@ function login(username, password) {
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
-function register(username, password, firstname, lastname) {
+function register(username, password, firstname, lastname, group) {
     return dispatch => {
         dispatch(request({ username }));
 
-        userService.register(username, password, firstname, lastname)
+        userService.register(username, password, firstname, lastname, group)
             .then(
                 user => {
                     dispatch(success(user));

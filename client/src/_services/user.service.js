@@ -29,11 +29,11 @@ function login(username, password) {
         });
 }
 
-function register(username, password, firstname, lastname) {
+function register(username, password, firstname, lastname, group) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, firstname, lastname })
+        body: JSON.stringify({ username, password, firstname, lastname, group })
     };
 
     return fetch(`${config.apiUrl}/users/create`, requestOptions)

@@ -197,7 +197,8 @@ class QuizPage extends React.Component {
         let data = {
             userId: this.state.user.id,
             quizId: this.state.quizId,
-            responses
+            responses,
+            disciplineId: this.props.match.params.id
         };
 
         const requestOptions = {

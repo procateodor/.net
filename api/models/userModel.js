@@ -7,7 +7,8 @@ module.exports = mongoose => {
         Password: { type: String },
         Token: { type: String },
         Role: { type: Number },
-        Points: { type: Number }
+        Points: { type: Number },
+        Group: { type: String }
     });
 
     const User = mongoose.model('users', userSchema);

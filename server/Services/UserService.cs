@@ -15,7 +15,7 @@ using WebApi.Helpers;
 namespace WebApi.Services {
     public interface IUserService {
         User Authenticate (string username, string password);
-        User Create(string username, string password, string firstname, string lastname);
+        User Create(string username, string password, string firstname, string lastname, string group);
         IEnumerable<User> GetAll ();
     }
 
@@ -64,7 +64,7 @@ namespace WebApi.Services {
             return user;
         }
 
-        public User Create (string username, string password, string firstname, string lastname) {
+        public User Create (string username, string password, string firstname, string lastname, string group) {
             var find = _users.Find<User> (u => u.Username == username).FirstOrDefault ();
 
             if (find != null)
@@ -72,7 +72,7 @@ namespace WebApi.Services {
                 return null;
             }
 
-            var user = new User(username, password, firstname, lastname);
+            var user = new User(username, password, firstname, lastname, group);
 
             _users.InsertOne(user);
 

@@ -18,7 +18,8 @@ class RegisterPage extends React.Component {
             password: '',
             repassword: '',
             firstname: '',
-            lastname: ''
+            lastname: '',
+            group: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -33,15 +34,15 @@ class RegisterPage extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const { username, password, repassword, firstname, lastname } = this.state;
+        const { username, password, repassword, firstname, lastname, group } = this.state;
         const { dispatch } = this.props;
-        if ((username && password && repassword && firstname && lastname) && (password === repassword)) {
-            dispatch(userActions.register(username, sha256(password).toString(), firstname, lastname));
+        if ((username && password && repassword && firstname && lastname && group) && (password === repassword)) {
+            dispatch(userActions.register(username, sha256(password).toString(), firstname, lastname, group));
         }
     }
 
     render() {
-        const { username, password, repassword, firstname, lastname } = this.state;
+        const { username, password, repassword, firstname, lastname, group } = this.state;
         return (
             <React.Fragment>
                 <link rel="stylesheet" href="/src/RegisterPage/main.css"/>
@@ -70,6 +71,13 @@ class RegisterPage extends React.Component {
                                     <input autoComplete='off' type="text" id="lastname" name='lastname' value={lastname} onChange={this.handleChange} />
                                     <label htmlFor="lastname">
                                         <span data-text="LastName">LastName</span>
+                                    </label>
+                                </fieldset>
+
+                                <fieldset className="signup--form-field signup--input">
+                                    <input autoComplete='off' type="text" id="group" name='group' value={group} onChange={this.handleChange} />
+                                    <label htmlFor="group">
+                                        <span data-text="group">Group</span>
                                     </label>
                                 </fieldset>
 

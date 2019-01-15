@@ -4,7 +4,8 @@ module.exports = mongoose => {
         userId: { type: String },
         responses: { type: Array },
         updated: { type: Date, default: Date.now },
-        quizId: { type: String }
+        quizId: { type: String },
+        disciplineId: {type: String}
     });
 
     const Answer = mongoose.model('answers', answerSchema);
