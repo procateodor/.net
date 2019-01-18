@@ -35,11 +35,5 @@ namespace WebApi.Controllers {
 
             return Ok (user);
         }
-
-        [HttpGet]
-        public IActionResult GetAll () {
-            var users = _userService.GetAll ();
-            return Ok (users);
-        }
     }
 }

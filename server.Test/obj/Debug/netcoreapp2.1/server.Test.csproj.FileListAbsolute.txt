@@ -1,0 +1,17 @@
+D:\Facultate\An3\NET\Proiect\.net\server.Test\obj\Debug\netcoreapp2.1\server.Test.csprojAssemblyReference.cache
+D:\Facultate\An3\NET\Proiect\.net\server.Test\obj\Debug\netcoreapp2.1\server.Test.csproj.CoreCompileInputs.cache
+D:\Facultate\An3\NET\Proiect\.net\server.Test\obj\Debug\netcoreapp2.1\server.Test.AssemblyInfoInputs.cache
+D:\Facultate\An3\NET\Proiect\.net\server.Test\obj\Debug\netcoreapp2.1\server.Test.AssemblyInfo.cs
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\server.Test.deps.json
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\server.Test.runtimeconfig.json
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\server.Test.runtimeconfig.dev.json
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\server.Test.dll
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\server.Test.pdb
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\WebApi.dll
+D:\Facultate\An3\NET\Proiect\.net\server.Test\bin\Debug\netcoreapp2.1\WebApi.pdb
+D:\Facultate\An3\NET\Proiect\.net\server.Test\obj\Debug\netcoreapp2.1\server.Test.csproj.CopyComplete
+D:\Facultate\An3\NET\Proiect\.net\server.Test\obj\Debug\netcoreapp2.1\server.Test.dll
+D:\Facultate\An3\NET\Proiect\.net\server.Test\obj\Debug\netcoreapp2.1\server.Test.pdb
