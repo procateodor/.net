@@ -32,6 +32,9 @@ const Answer = AnswerModel(mongoose);
 const UserModel = require('./models/userModel');
 const User = UserModel(mongoose);
 
+const NotificationModel = require('./models/notificationModel');
+const Notification = NotificationModel(mongoose);
+
 global._db = db;
 global.Discipline = Discipline;
 global.Course = Course;
@@ -40,6 +43,7 @@ global.Comment = Comment;
 global.Quiz = Quiz;
 global.Answer = Answer;
 global.User = User;
+global.Notification = Notification;
 
 // setting body parser middleware 
 app.use(bodyParser.json());
