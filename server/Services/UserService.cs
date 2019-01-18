@@ -16,7 +16,6 @@ namespace WebApi.Services {
     public interface IUserService {
         User Authenticate (string username, string password);
         User Create(string username, string password, string firstname, string lastname, string group);
-        IEnumerable<User> GetAll ();
     }
 
     public class UserService : IUserService {
@@ -100,11 +99,6 @@ namespace WebApi.Services {
             user.Password = null;
 
             return user;
-        }
-
-        public IEnumerable<User> GetAll () {
-            // return users without passwords
-            return _users.Find (user => true).ToList ();
         }
     }
 }
