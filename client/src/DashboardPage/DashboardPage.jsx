@@ -20,12 +20,39 @@ class DashboardPage extends React.Component {
             details: {},
             courses: [],
             labs: [],
-            user
+            user,
+            notifications: []
         };
     }
 
+    componentDidMount() {
+        fetch(`http://127.0.0.1:6969/api/professor/notifications/${this.state.user.id}`).then(this.handleResponse).then(response => {
+            if (response.success) {
+                this.setState({ notifications: response.items });
+            }
+        });
+    }
+
+    handleResponse(response) {
+        return response.text().then(text => {
+            const data = text && JSON.parse(text);
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    logout();
+                    location.reload(true);
+                }
+
+                const error = (data && data.message) || response.statusText;
+                return Promise.reject(error);
+            }
+
+            return data;
+        });
+    }
+
     render() {
-        const { prof, user } = this.state;
+        const { prof, user, notifications } = this.state;
         return (
             <React.Fragment>
                 <Navbar logged={true} prof={prof} history={this.props.history} user={user} />
@@ -34,26 +61,16 @@ class DashboardPage extends React.Component {
                         <div className="col-md-12">
                             <div className="row"><h3>Professor Dashboard</h3></div>
                             <div className="row">
-                                <div className="col-md-6">
-                                    <div className="row">
-                                        <div className="curs1">
-                                            <p className="name">Course 1</p>
-                                            <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                                Blanditiis, aspernatur illum beatae architecto cum vel velit dignissimos quae voluptate
-                                nesciunt perspiciatis nulla error! Quo assumenda fugit suscipit illo rem laboriosam.</p>
+                                {notifications && notifications.map((e, key) => (
+                                    <div className="col-md-6 card" key={key}>
+                                        <div className="card-body">
+                                            <div className="curs1">
+                                                <p className="name">{e.disciplineName}</p>
+                                                <p className="description">{e.message}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="row">
-                                        <div className="curs1">
-                                            <p className="name">Course 1</p>
-                                            <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                                Blanditiis, aspernatur illum beatae architecto cum vel velit dignissimos quae voluptate
-                                nesciunt perspiciatis nulla error! Quo assumenda fugit suscipit illo rem laboriosam.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -62,26 +79,16 @@ class DashboardPage extends React.Component {
                             <div className="col-md-12">
                                 <div className="row"><h3>Student Dashboard</h3></div>
                                 <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="row">
-                                            <div className="curs1">
-                                                <p className="name">Course 1</p>
-                                                <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                                    Blanditiis, aspernatur illum beatae architecto cum vel velit dignissimos quae voluptate
-                                nesciunt perspiciatis nulla error! Quo assumenda fugit suscipit illo rem laboriosam.</p>
+                                    {notifications && notifications.map((e, key) => (
+                                        <div className="col-md-6 card" key={key}>
+                                            <div className="card-body">
+                                                <div className="curs1">
+                                                    <p className="name">{e.disciplineName}</p>
+                                                    <p className="description">{e.message}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="row">
-                                            <div className="curs1">
-                                                <p className="name">Course 1</p>
-                                                <p className="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                                    Blanditiis, aspernatur illum beatae architecto cum vel velit dignissimos quae voluptate
-                                nesciunt perspiciatis nulla error! Quo assumenda fugit suscipit illo rem laboriosam.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>

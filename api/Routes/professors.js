@@ -53,9 +53,9 @@ router.post('/studsReport', async (req, res) => {
     const { course_id } = req.body;
 
     try {
-        const answers = await Answer.find({disciplineId: course_id});
+        const answers = await Answer.find({ disciplineId: course_id });
         let answersMap = new Map();
-        
+
         answers.forEach(answer => {
             if (answersMap.has(answer.userId)) {
                 answer.responses.forEach(response => {
@@ -83,8 +83,8 @@ router.post('/studsReport', async (req, res) => {
 
         let fullText = '';
 
-        for(const [key, value] of answersMap) {
-            const user = await User.findOne({_id: key});
+        for (const [key, value] of answersMap) {
+            const user = await User.findOne({ _id: key });
 
             fullText += `${user.LastName} ${user.FirstName} ${user.Group} ${value.r} Right answers ${value.w} Wrong answers\n`;
         }
@@ -104,7 +104,7 @@ router.post('/studsReport', async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             success: false
-        });   
+        });
     }
 });
 
@@ -343,9 +343,23 @@ router.post('/disciplines/courses', (req, res) => {
             });
         }
 
-        return res.json({
-            success: true,
-            data
+        Discipline.findOne({ _id: item.disciplineId }, async (err, discipline) => {
+            const subscribers = discipline.subscribers;
+
+            for (let index = 0; index < subscribers.length; index++) {
+                const sub = subscribers[index];
+
+                await Notification({
+                    disciplineName: item.title,
+                    message: 'A cour has been added.',
+                    userId: sub
+                }).save();
+            }
+
+            return res.json({
+                success: true,
+                data
+            });
         });
     });
 });
@@ -360,10 +374,25 @@ router.post('/disciplines/labs', (req, res) => {
             });
         }
 
-        return res.json({
-            success: true,
-            data
+        Discipline.findOne({ _id: item.disciplineId }, async (err, discipline) => {
+            const subscribers = discipline.subscribers;
+
+            for (let index = 0; index < subscribers.length; index++) {
+                const sub = subscribers[index];
+
+                await Notification({
+                    disciplineName: item.title,
+                    message: 'A lab has been added.',
+                    userId: sub
+                }).save();
+            }
+
+            return res.json({
+                success: true,
+                data
+            });
         });
+
     });
 });
 
@@ -466,6 +495,23 @@ router.post('/disciplines/:id/:quizId', (req, res) => {
             data
         });
     });
+});
+
+router.get('/notifications/:id', (req, res) => {
+    const { id } = req.params;
+
+    Notification.find({ userId: id }, (err, data) => {
+        if (err) {
+            return res.status(404).json({
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            items: data
+        });
+    })
 });
 
 module.exports = router;

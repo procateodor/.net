@@ -2,7 +2,7 @@ module.exports = mongoose => {
     // Create a schema - like blueprint
     const NotificationSchema = new mongoose.Schema({
         userId: { type: String },
-        message: { type: Array },
+        message: { type: String },
         updated: { type: Date, default: Date.now },
         disciplineName: { type: String }
     });

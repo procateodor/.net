@@ -13,8 +13,8 @@ router.get('/disciplines', (req, res) => {
 
 router.post('/disciplines/sub', (req, res) => {
     const { userId, id } = req.body;
-    
-    Discipline.findOne({_id: id}, (err, item) => {
+
+    Discipline.findOne({ _id: id }, (err, item) => {
         if (err) {
             return res.status(404).send({ status: false, items: [] });
         }
@@ -26,15 +26,27 @@ router.post('/disciplines/sub', (req, res) => {
                 return res.status(404).send({ status: false, items: [] });
             }
 
-            return res.status(200).send(item);
+            Notification({
+                disciplineName: item.title,
+                userId: item.profId,
+                message: 'An user subscribed to you discipline.'
+            }).save(err => {
+                if (err) {
+                    console.log(err);
+                    
+                    return res.status(404).send({ status: false, items: [] });
+                }
+
+                return res.status(200).send(item);
+            });
         });
     });
 });
 
 router.post('/disciplines/unsub', (req, res) => {
     const { userId, id } = req.body;
-    
-    Discipline.findOne({_id: id}, (err, item) => {
+
+    Discipline.findOne({ _id: id }, (err, item) => {
         if (err) {
             return res.status(404).send({ status: false, items: [] });
         }
