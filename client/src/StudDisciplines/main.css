@@ -8,3 +8,295 @@
 .none {
     display: none;
 }
+
+.subscribe {
+    display: inline-block;
+    position: absolute;
+    right: 5%;
+    top: 8%;
+}
+
+.none {
+    display: none;
+}
+
+.curs-title {
+    color: #4D4665 !important;
+}
+
+.titlePage {
+    color: #4D4665;
+    padding-bottom: 30px;
+}
+
+.card {
+    border: none;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    background: rgb(250, 250, 250);
+    cursor: default;
+    transition: all .2s ease-in-out;
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 10px 40px;
+    border-bottom: 7px solid transparent;
+    box-shadow: 0px 5px 30px -1px rgba(0, 0, 0, .1);
+    transition: all .2s ease-in-out;
+    border-radius: 10px;
+}
+
+.card-body.noanim {
+    border: none;
+}
+
+.card-body.new {
+    padding: 10px 40px;
+    border: 3px solid #F63B77;
+    box-shadow: 0px 5px 30px -1px rgba(246, 59, 119, .4);
+    transition: all .2s ease-in-out;
+}
+
+.card:hover .card-body {
+    border-color: #F8AE5E;
+    box-shadow: 0px 0px 50px 10px rgba(0, 0, 0, .1);
+    z-index: 9999;
+}
+
+.card:hover .card-body.noanim {
+    border: none;
+    box-shadow: 0px 5px 30px -1px rgba(0, 0, 0, .1);
+    z-index: 9999;
+}
+
+.card:hover {
+    transform: scale(1.01) translateY(-3px);
+}
+
+.card:hover .card-body.new {
+    box-shadow: 0px 0px 50px 10px rgba(246, 59, 119, .1);
+    z-index: 9999;
+}
+
+.container-notification {
+    padding: 0 15px;
+}
+
+p {
+    color: #4D4665;
+}
+
+p.name {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+a {
+    color: #46c7f8;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.date {
+    opacity: .4;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
+.sign2 {
+    width: 40% !important;
+}
+
+.sign3 {
+    width: 30% !important;
+}
+
+.sign4 {
+    width: 10% !important;
+    bottom: 5% !important;
+    left: 50%;
+    transform: translateX(-50%) !important;
+}
+
+.edit-btn {
+    padding: 3px 5px;
+    display: inline-block;
+    float: right;
+    color: #4D4665;
+    font-size: 20px;
+}
+
+.edit-btn:hover {
+    color: rgba(77, 70, 101, 0.708);
+    cursor: pointer;
+}
+
+.delete-btn {
+    padding: 3px 5px;
+    display: inline-block;
+    float: right;
+    color: #4D4665;
+    font-size: 20px;
+}
+
+.delete-btn:hover {
+    color: rgba(77, 70, 101, 0.708);
+    cursor: pointer;
+}
+
+.add-btn {
+    padding: 3px 5px;
+    display: inline-block;
+    float: right;
+    color: #4D4665;
+    font-size: 20px;
+}
+
+.add-btn:hover {
+    color: rgba(77, 70, 101, 0.708);
+    cursor: pointer;
+}
+
+.addDisc {
+    border: none;
+    background: #4D4665;
+}
+
+.addDisc:hover {
+    background: rgba(77, 70, 101, 0.883);
+}
+
+.addDisc:active {
+    background: #4D4665 !important;
+}
+
+label {
+    color: #4D4665;
+}
+
+#comment,
+#titleEdit,
+#descriptionEdit,
+#pathEdit,
+#titleAdd,
+#descriptionAdd,
+#pathAdd,
+#titleQuiz,
+#timeQuiz,
+.questionAdd,
+#yearEdit,
+#semesterEdit,
+#creditEdit,
+#yearAdd,
+#semesterAdd,
+#creditAdd {
+    border: none;
+    overflow: auto;
+    outline: none;
+
+    background: rgb(250, 250, 250);
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    box-shadow: 0px 5px 30px -1px rgba(0, 0, 0, .1);
+}
+
+.modal-title {
+    color: #4D4665;
+}
+
+.add-comment-btn {
+    border: none;
+    background: #4D4665;
+}
+
+.add-comment-btn:hover {
+    background: rgba(77, 70, 101, 0.883);
+}
+
+.add-comment-btn:active {
+    background: #4D4665 !important;
+}
+
+.card-title {
+    color: #4D4665;
+    margin: 5px 0;
+}
+
+.card-title.title:hover {
+    text-decoration: underline;
+}
+
+.card-text {
+    color: #4D4665;
+    margin-bottom: 0;
+}
+
+.bg-primary {
+    background: #46c7f8 !important;
+}
+
+.bg-primary .card-title {
+    color: white !important;
+}
+
+.bg-primary .card-text {
+    color: white !important;
+}
+
+.close-edit-modal,
+.close-modal-add {
+    border: none;
+    background: #4D4665;
+}
+
+.close-edit-modal:hover,
+.close-modal-add:hover {
+    background: rgba(77, 70, 101, 0.883);
+}
+
+.close-edit-modal:active,
+.close-modal-add:active {
+    background: #4D4665 !important;
+}
+
+.save-edit-modal,
+.save-add-modal {
+    border: none;
+    background: #F63B77;
+}
+
+.save-edit-modal:hover,
+.save-add-modal:hover {
+    background: rgba(246, 59, 118, 0.838);
+}
+
+.save-edit-modal:active,
+.save-add-modal:active {
+    background: rgba(246, 59, 118, 0.838) !important;
+}
+
+.unsub-btn {
+    color: #F63B77;
+    margin-top: 5px;
+}
+
+.unsub-btn:hover {
+    color: rgba(246, 59, 118, 0.838);
+}
+
+.sub-btn {
+    color: #fd9e11;
+    margin-top: 5px;
+}
+
+.sub-btn:hover {
+    color: #fd9f11d4;
+}

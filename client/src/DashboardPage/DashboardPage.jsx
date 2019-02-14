@@ -3,6 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from '../_actions';
 
+import moment from 'moment';
+
 import { Navbar } from '../Navbar';
 
 class DashboardPage extends React.Component {
@@ -55,36 +57,53 @@ class DashboardPage extends React.Component {
         const { prof, user, notifications } = this.state;
         return (
             <React.Fragment>
+                <link rel="stylesheet" href="/src/DashboardPage/main.css" />
                 <Navbar logged={true} prof={prof} history={this.props.history} user={user} />
+
+                <img className="sign2" src="/src/HomePage/images/2.svg" alt="2" id="sign2" />
+                <img className="sign3" src="/src/HomePage/images/3.svg" alt="3" id="sign3" />
+                <img className="sign4" src="/src/HomePage/images/4.svg" alt="3" id="sign7" />
                 {prof ? (
                     <div className="container mt-4">
-                        <div className="col-md-12">
-                            <div className="row"><h3>Professor Dashboard</h3></div>
-                            <div className="row">
-                                {notifications && notifications.map((e, key) => (
-                                    <div className="col-md-6 card" key={key}>
-                                        <div className="card-body">
+                        <div className="row">
+                            <div className="col-12">
+                                <h3 className="titlePage">Professor Dashboard</h3>
+                            </div>
+                        </div>
+                        <div className="row">
+                            {notifications && notifications.reverse().map((e, key) => (
+                                <div className="col-md-6 container-notification" key={key}>
+                                    <div className="card">
+                                        <div className={new Date(e.updated).valueOf() + 1000 * 60 * 60 * 24 > new Date().valueOf() ? "card-body new" : "card-body"}>
                                             <div className="curs1">
                                                 <p className="name">{e.disciplineName}</p>
                                                 <p className="description">{e.message}</p>
+                                                <small className="date">{moment(new Date(e.updated).valueOf()).fromNow()}</small>
                                             </div>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 ) : (
                         <div className="container mt-4">
                             <div className="col-md-12">
-                                <div className="row"><h3>Student Dashboard</h3></div>
                                 <div className="row">
-                                    {notifications && notifications.map((e, key) => (
-                                        <div className="col-md-6 card" key={key}>
-                                            <div className="card-body">
-                                                <div className="curs1">
-                                                    <p className="name">{e.disciplineName}</p>
-                                                    <p className="description">{e.message}</p>
+                                    <div className="col-12">
+                                        <h3 className="titlePage">Student Dashboard</h3>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    {notifications && notifications.reverse().map((e, key) => (
+                                        <div className="col-md-6 container-notification" key={key}>
+                                            <div className="card">
+                                                <div className={new Date(e.updated).valueOf() + 1000 * 60 * 60 * 24 > new Date().valueOf() ? "card-body new" : "card-body"}>
+                                                    <div className="curs1">
+                                                        <p className="name">{e.disciplineName}</p>
+                                                        <p className="description">{e.message}</p>
+                                                        <small className="date">{moment(new Date(e.updated).valueOf()).fromNow()}</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

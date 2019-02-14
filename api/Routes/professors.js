@@ -102,6 +102,8 @@ router.post('/studsReport', async (req, res) => {
             path
         });
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json({
             success: false
         });

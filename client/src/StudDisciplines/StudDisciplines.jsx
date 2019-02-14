@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from '../_actions';
 
+import moment from 'moment';
+
 import { Navbar } from '../Navbar';
 
 class StudDisciplines extends React.Component {
@@ -241,6 +243,11 @@ class StudDisciplines extends React.Component {
             <React.Fragment>
                 <Navbar logged={true} prof={prof} history={this.props.history} user={user} />
                 <link rel="stylesheet" href="/src/StudDisciplines/main.css" />
+
+                <img className="sign2" src="/src/HomePage/images/1.svg" alt="2" id="sign2" />
+                <img className="sign3" src="/src/HomePage/images/3.svg" alt="3" id="sign3" />
+                <img className="sign4" src="/src/HomePage/images/2.svg" alt="3" id="sign7" />
+
                 {!prof ? (
                     <React.Fragment>
                         <div className="container mt-4">
@@ -274,9 +281,17 @@ class StudDisciplines extends React.Component {
                                         <div className="materia1">
                                             <div className="card">
                                                 <div className="card-body">
-                                                    {e.subscribers.includes(userId) ? <button className="btn btn-sm btn-danger float-right" onClick={event => this.updateSubscribe(event, e._id, false)}>Unsubscribe</button> : <button className="btn btn-sm btn-success float-right" onClick={event => this.updateSubscribe(event, e._id, true)}>Subscribe</button>}
+                                                    {e.subscribers.includes(userId) ? (
+                                                        <div className="delete-btn unsub-btn" onClick={event => this.updateSubscribe(event, e._id, false)}>
+                                                            <i className="fas fa-calendar-minus float-right mr-1"></i>
+                                                        </div>
+                                                    ) : (
+                                                            <div className="delete-btn sub-btn"  onClick={event => this.updateSubscribe(event, e._id, true)}>
+                                                                <i className="fas fa-calendar-plus float-right mr-1"></i>
+                                                            </div>
+                                                        )}
                                                     <Link to={`/disciplines/${e._id}`}>
-                                                        <h4 className="card-title">{e.title}</h4>
+                                                        <h4 className="card-title title">{e.title}</h4>
                                                     </Link>
                                                     <p className="description">{e.description}</p>
                                                     <div className="row">
@@ -325,17 +340,23 @@ class StudDisciplines extends React.Component {
                                             <div className="materia1">
                                                 <div className="card">
                                                     <div className="card-body">
-                                                        <button className="btn btn-sm btn-primary float-right ml-1" onClick={() => this.downloadReport(e._id)}>Download report</button>
-                                                        <button className="btn btn-sm btn-danger float-right" onClick={() => this.handleDelete(e._id)}>Delete</button>
-                                                        <button className="btn btn-sm btn-success float-right mr-1" data-toggle="modal" data-target="#editModal" onClick={() => this.startEdit(e)}>Edit</button>
+                                                        <div className="add-btn" style={{ marginTop: -6 }} onClick={() => this.downloadReport(e._id)}>
+                                                            <i className="fas fa-file-download"></i>
+                                                        </div>
+                                                        <div className="delete-btn" onClick={() => this.handleDelete(e._id)}>
+                                                            <i className="fas fa-trash float-right mr-1"></i>
+                                                        </div>
+                                                        <div className="edit-btn" data-toggle="modal" data-target="#editModal" onClick={() => this.startEdit(e)}>
+                                                            <i className="far fa-edit float-right mr-1"></i>
+                                                        </div>
                                                         <Link to={`/disciplines/${e._id}`}>
                                                             <h4 className="card-title title">{e.title}</h4>
                                                         </Link>
                                                         <p className="description">{e.description}</p>
-                                                        <div className="row">
-                                                            <div className="col-md-4 year">Year: {e.year}</div>
-                                                            <div style={{ textAlign: 'center' }} className="col-md-4 semester">Semester: {e.semester}</div>
-                                                            <div style={{ textAlign: 'right' }} className="col-md-4 credit">Credit: {e.credit}</div>
+                                                        <div className="row" style={{ color: '#4D4665' }}>
+                                                            <div className="col-4 year">Year: {e.year}</div>
+                                                            <div style={{ textAlign: 'center' }} className="col-4 semester">Semester: {e.semester}</div>
+                                                            <div style={{ textAlign: 'right' }} className="col-4 credit">Credit: {e.credit}</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -343,7 +364,7 @@ class StudDisciplines extends React.Component {
                                         </div>
                                     ))}
                                     <div id="addDiscContainer" className="col-sm-6 text-center">
-                                        <button data-toggle="modal" data-target="#addModal" className="btn btn-primary addDisc">Add new discipline</button>
+                                        <div data-toggle="modal" data-target="#addModal" className="btn btn-primary addDisc">Add new discipline</div>
                                     </div>
                                 </div>
                             </div>
@@ -368,19 +389,19 @@ class StudDisciplines extends React.Component {
                                                 <textarea placeholder="Description.." className="form-control" id="descriptionEdit" rows="3"></textarea>
                                             </div>
                                             <div className="row">
-                                                <div className="col-md-4">
+                                                <div className="col-4">
                                                     <div className="form-group">
                                                         <label htmlFor="yearEdit">Year</label>
                                                         <input type="number" className="form-control" id="yearEdit" placeholder="Year.." />
                                                     </div>
                                                 </div>
-                                                <div className="col-md-4">
+                                                <div className="col-4">
                                                     <div className="form-group">
                                                         <label htmlFor="semesterEdit">Semester</label>
                                                         <input type="number" className="form-control" id="semesterEdit" placeholder="Semester.." />
                                                     </div>
                                                 </div>
-                                                <div className="col-md-4">
+                                                <div className="col-4">
                                                     <div className="form-group">
                                                         <label htmlFor="creditEdit">Credit</label>
                                                         <input type="number" className="form-control" id="creditEdit" placeholder="Credit.." />
@@ -389,8 +410,8 @@ class StudDisciplines extends React.Component {
                                             </div>
                                         </div>
                                         <div className="modal-footer">
-                                            <button id="closeModal" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary" onClick={() => this.handleEdit()}>Save changes</button>
+                                            <div id="closeModal" className="btn btn-secondary close-edit-modal" data-dismiss="modal">Close</div>
+                                            <div className="btn btn-primary save-edit-modal" onClick={() => this.handleEdit()}>Save changes</div>
                                         </div>
                                     </div>
                                 </div>
@@ -437,8 +458,8 @@ class StudDisciplines extends React.Component {
                                             </div>
                                         </div>
                                         <div className="modal-footer">
-                                            <button id="closeModal2" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary" onClick={() => this.handleAdd()}>Save changes</button>
+                                            <div id="closeModal2" className="btn btn-secondary close-edit-modal" data-dismiss="modal">Close</div>
+                                            <div className="btn btn-primary save-edit-modal" onClick={() => this.handleAdd()}>Save changes</div>
                                         </div>
                                     </div>
                                 </div>

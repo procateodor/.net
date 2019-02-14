@@ -250,16 +250,19 @@ class QuizPage extends React.Component {
             <React.Fragment>
                 <Navbar logged={true} prof={prof} history={this.props.history} user={user} />
                 <link rel="stylesheet" href="/src/HomePage/main.css" />
+                <link rel="stylesheet" href="/src/QuizPage/main.css" />
+
+                <img className="sign2" src="/src/HomePage/images/2.svg" alt="2" id="sign2" />
+                <img className="sign3" src="/src/HomePage/images/1.svg" alt="3" id="sign3" />
+                <img className="sign4" src="/src/HomePage/images/4.svg" alt="3" id="sign7" />
                 {!prof ? (
                     <React.Fragment>
                         <div className="container mt-4">
                             <div className="col-md-12">
                                 <div className="row">
-                                    <div className="col-sm-6"><h1 className="curs-title">{title}</h1></div>
-                                    <div className="col-sm-6 text-right"><h1>Time left {this.addLeadingZeros(min)}:{this.addLeadingZeros(sec)}</h1></div>
+                                    <div className="col-sm-6"><h1 className="curs-title title">{title}</h1></div>
+                                    <div className="col-sm-6 text-right"><h1 className="time">Time left {this.addLeadingZeros(min)}:{this.addLeadingZeros(sec)}</h1></div>
                                 </div>
-                                <hr />
-                                <h3>Questions</h3>
                                 <hr />
                                 {questions && questions.map((e, key) => (
                                     <React.Fragment key={key}>
@@ -271,16 +274,20 @@ class QuizPage extends React.Component {
                                         ) : (
                                                 responses && responses.map((e, key2) => (
                                                     responses[key2] && responses[key2].index === key ? (
-                                                        <h4 key={key2} className={responses[key2].status === 'wrong' ? 'wrong-answer' : responses[key2].status === 'right' ? 'right-answer' : ''}>{responses[key2].value}</h4>
+                                                        <div className="card" key={key2}>
+                                                            <div className="card-body noanim" className={responses[key2].status === 'wrong' ? 'answer-wrong card-body noanim' : responses[key2].status === 'right' ? 'answer-right card-body noanim' : 'card-body noanim answer'}>
+                                                                <h4>{responses[key2].value}</h4>
+                                                            </div>
+                                                        </div>
                                                     ) : ''
                                                 ))
                                             )}
                                     </React.Fragment>
                                 ))}
                                 {!submitted ? (
-                                    <button className="btn btn-primary" onClick={() => this.submitAnswer()}>Submit your answers</button>
+                                    <button className="btn btn-primary save-edit-modal" onClick={() => this.submitAnswer()}>Submit your answers</button>
                                 ) : (
-                                        <h4 className="mt-3">You submit you answers, wait for response!</h4>
+                                        <h4 className="mt-3 title">You submit you answers, wait for response!</h4>
                                     )}
                             </div>
                         </div>
@@ -294,16 +301,15 @@ class QuizPage extends React.Component {
                                         <div className="col-sm-6 text-right"><h1>Time left {this.addLeadingZeros(min)}:{this.addLeadingZeros(sec)}</h1></div>
                                     </div>
                                     <hr />
-                                    <h3>Questions</h3>
                                     {questions && questions.map((e, key) => (
-                                        <h3 key={key}>{key + 1}. {e}</h3>
+                                        <h3 style={{ color: '#4D4665' }} key={key}>{key + 1}. {e}</h3>
                                     ))}
                                     <hr />
-                                    <h3>Responses</h3>
+                                    <h3 style={{ color: '#4D4665' }}>Responses</h3>
                                     {profResponses && profResponses.map((e, key) => (
                                         <React.Fragment key={key}>
                                             <div className="card mb-2">
-                                                <div className="card-body">
+                                                <div className="card-body noanim">
                                                     {e.responses && e.responses.map((e2, key2) => (
                                                         <React.Fragment key={key2}>
                                                             <div className="col-md-12 mb-2 mt-2">
@@ -315,13 +321,21 @@ class QuizPage extends React.Component {
                                                                         <div className="row">
                                                                             {!e2.status ? (
                                                                                 <React.Fragment>
-                                                                                    <button className="btn btn-success float-right btn-xs mr-2" onClick={() => this.sendStatus(e, key2, 1)}>right</button>
-                                                                                    <button className="btn btn-danger float-right btn-xs" onClick={() => this.sendStatus(e, key2, 2)}>wrong</button>
+                                                                                    <div className="delete-btn succes" onClick={() => this.sendStatus(e, key2, 1)}>
+                                                                                        <i className="fas fa-check float-right mr-1"></i>
+                                                                                    </div>
+                                                                                    <div className="delete-btn wrong" onClick={() => this.sendStatus(e, key2, 2)}>
+                                                                                        <i className="fas fa-times float-right mr-1"></i>
+                                                                                    </div>
                                                                                 </React.Fragment>
                                                                             ) : e2.status === 'right' ? (
-                                                                                <button className="btn btn-success float-right btn-xs mr-2">right</button>
+                                                                                <div className="delete-btn succes">
+                                                                                    <i className="fas fa-check float-right mr-1"></i>
+                                                                                </div>
                                                                             ) : (
-                                                                                        <button className="btn btn-danger float-right btn-xs">wrong</button>
+                                                                                        <div className="delete-btn wrong">
+                                                                                            <i className="fas fa-check float-right mr-1"></i>
+                                                                                        </div>
                                                                                     )}
                                                                         </div>
                                                                     </div>

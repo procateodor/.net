@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from '../_actions';
 
+import moment from 'moment';
+
 import { Navbar } from '../Navbar';
 
 class DisciplinePage extends React.Component {
@@ -214,14 +216,18 @@ class DisciplinePage extends React.Component {
             body: JSON.stringify(data)
         };
 
-        fetch(`http://127.0.0.1:6969/api/professor/disciplines/${this.state.disciplineId}/comment`, requestOptions).then(this.handleResponse).then(response => {
-            if (response.success) {
-                const comments = this.state.comments;
-                comments.push(response.data);
+        if (data.description.length > 0) {
+            fetch(`http://127.0.0.1:6969/api/professor/disciplines/${this.state.disciplineId}/comment`, requestOptions).then(this.handleResponse).then(response => {
+                if (response.success) {
+                    const comments = this.state.comments;
+                    comments.push(response.data);
 
-                this.setState({ ...comments });
-            }
-        });
+                    this.setState({ ...comments });
+                }
+            });
+        }
+
+        document.getElementById('comment').value = '';
     }
 
     addMoreQuestion() {
@@ -391,15 +397,21 @@ class DisciplinePage extends React.Component {
                 this.checkQuiz();
             }, 5000);
         }
+
         return (
             <React.Fragment>
                 <Navbar logged={true} prof={prof} history={this.props.history} user={user} />
                 <link rel="stylesheet" href="/src/DisciplinePage/main.css" />
+
+                <img className="sign2" src="/src/HomePage/images/3.svg" alt="2" id="sign2" />
+                <img className="sign3" src="/src/HomePage/images/4.svg" alt="3" id="sign3" />
+                <img className="sign4" src="/src/HomePage/images/2.svg" alt="3" id="sign7" />
+
                 {!prof ? (
                     <React.Fragment>
                         <div className="container mt-4">
                             <div className="col-md-12">
-                                <div className="row"><h1 className="curs-title">Courses and labs</h1></div>
+                                <h1 className="curs-title">Courses and labs</h1>
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
@@ -409,10 +421,15 @@ class DisciplinePage extends React.Component {
                                                 <div className="materia1">
                                                     <div className="card">
                                                         <div className="card-body">
-                                                            {e.game ? <button className="btn btn-sm btn-primary float-right" onClick={() => this.enterQuiz(e.gameId)}>Join quiz</button> : ''}
+                                                            {e.game ? (
+                                                                <div className="add-btn" onClick={() => this.enterQuiz(e.gameId)}>
+                                                                    <i className="fas fa-sign-in-alt float-right"></i>
+                                                                </div>
+                                                            ) : ''}
                                                             <h4 className="card-title">{e.title}</h4>
                                                             <p className="description">{e.description}</p>
-                                                            <a href={e.path} target="_blank" download>Download</a>
+                                                            <a href={e.path} target="_blank" download> <i className="fas fa-cloud-download-alt"></i> Download</a>
+                                                            <small className="date">{moment(new Date(e.updated).valueOf()).fromNow()}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -427,10 +444,15 @@ class DisciplinePage extends React.Component {
                                                 <div className="materia1">
                                                     <div className="card">
                                                         <div className="card-body">
-                                                            {e.game ? <button className="btn btn-sm btn-primary float-right" onClick={() => this.enterQuiz(e.gameId)}>Join quiz</button> : ''}
+                                                            {e.game ? (
+                                                                <div className="add-btn" onClick={() => this.enterQuiz(e.gameId)}>
+                                                                    <i className="fas fa-sign-in-alt float-right"></i>
+                                                                </div>
+                                                            ) : ''}
                                                             <h4 className="card-title">{e.title}</h4>
                                                             <p className="description">{e.description}</p>
-                                                            <a href={e.path} target="_blank" download>Download</a>
+                                                            <a href={e.path} target="_blank" download><i className="fas fa-cloud-download-alt"></i> Download</a>
+                                                            <small className="date">{moment(new Date(e.updated).valueOf()).fromNow()}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -450,15 +472,16 @@ class DisciplinePage extends React.Component {
                                         <input id="gdpr" className="mr-2" type="checkbox" />
                                         <label htmlFor="gdpr">Check for anonim post</label>
                                     </div>
-                                    <button className="btn btn-primary" onClick={() => this.commentAdd()}>Add comment</button>
+                                    <div className="btn btn-primary add-comment-btn" onClick={() => this.commentAdd()}>Add comment</div>
                                 </div>
 
                                 <div className="col-md-6 offset-md-3 mt-3">
                                     {comments && comments.map((e, key) => (
                                         <div className={e.userId === userId ? "card text-white bg-primary mb-1" : "card mb-1"} key={key}>
-                                            <div className="card-body">
+                                            <div className="card-body noanim">
                                                 <h5 className="card-title">{e.name}</h5>
                                                 <p className="card-text">{e.description}</p>
+                                                <small className="date">{moment(new Date(e.updated).valueOf()).fromNow()}</small>
                                             </div>
                                         </div>
                                     ))}
@@ -481,22 +504,31 @@ class DisciplinePage extends React.Component {
                                                         <div className="card">
                                                             <div className="card-body">
                                                                 {e.game ? (
-                                                                    <button className="btn btn-sm btn-primary float-right" onClick={() => this.enterQuiz(e.gameId)}>Join quiz</button>
+                                                                    <div className="add-btn" onClick={() => this.enterQuiz(e.gameId)}>
+                                                                        <i className="fas fa-sign-in-alt float-right"></i>
+                                                                    </div>
                                                                 ) : (
-                                                                        <button className="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#quizModal" onClick={() => this.startQuiz(e._id, 1)}>Create quiz</button>
+                                                                        <div className="add-btn" data-toggle="modal" data-target="#quizModal" onClick={() => this.startQuiz(e._id, 1)}>
+                                                                            <i className="fas fa-plus float-right"></i>
+                                                                        </div>
                                                                     )}
-                                                                <button className="btn btn-sm btn-danger float-right mr-1" onClick={() => this.handleDelete(e._id, 1)}>Delete</button>
-                                                                <button className="btn btn-sm btn-success float-right mr-1" data-toggle="modal" data-target="#editModal" onClick={() => this.startEdit(e, 1)}>Edit</button>
+                                                                <div className="delete-btn" onClick={() => this.handleDelete(e._id, 1)}>
+                                                                    <i className="fas fa-trash float-right mr-1"></i>
+                                                                </div>
+                                                                <div className="edit-btn" data-toggle="modal" data-target="#editModal" onClick={() => this.startEdit(e, 1)}>
+                                                                    <i className="far fa-edit float-right mr-1"></i>
+                                                                </div>
                                                                 <h4 className="card-title">{e.title}</h4>
                                                                 <p className="description">{e.description}</p>
-                                                                <a href={e.path} target="_blank" download>Download</a>
+                                                                <a href={e.path} target="_blank" download><i className="fas fa-cloud-download-alt"></i> Download</a>
+                                                                <small className="date">{moment(new Date(e.updated).valueOf()).fromNow()}</small>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             ))}
                                             <div id="addDiscCoursesContainer" className="col-sm-12 text-center">
-                                                <button data-toggle="modal" data-target="#addModal" className="btn btn-primary addDisc" onClick={() => this.startAdd(1)}>Add new course</button>
+                                                <div data-toggle="modal" data-target="#addModal" className="btn btn-primary addDisc" onClick={() => this.startAdd(1)}>Add new course</div>
                                             </div>
                                         </div>
                                     </div>
@@ -508,15 +540,24 @@ class DisciplinePage extends React.Component {
                                                         <div className="card">
                                                             <div className="card-body">
                                                                 {e.game ? (
-                                                                    <button className="btn btn-sm btn-primary float-right" onClick={() => this.enterQuiz(e.gameId)}>Join quiz</button>
+                                                                    <div className="add-btn" onClick={() => this.enterQuiz(e.gameId)}>
+                                                                        <i className="fas fa-sign-in-alt float-right"></i>
+                                                                    </div>
                                                                 ) : (
-                                                                        <button className="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#quizModal" onClick={() => this.startQuiz(e._id, 2)}>Create quiz</button>
+                                                                        <div className="add-btn" data-toggle="modal" data-target="#quizModal" onClick={() => this.startQuiz(e._id, 2)}>
+                                                                            <i className="fas fa-plus float-right"></i>
+                                                                        </div>
                                                                     )}
-                                                                <button className="btn btn-sm btn-danger float-right mr-1" onClick={() => this.handleDelete(e._id, 2)}>Delete</button>
-                                                                <button className="btn btn-sm btn-success float-right mr-1" data-toggle="modal" data-target="#editModal" onClick={() => this.startEdit(e, 2)}>Edit</button>
+                                                                <div className="delete-btn" onClick={() => this.handleDelete(e._id, 2)}>
+                                                                    <i className="fas fa-trash float-right mr-1"></i>
+                                                                </div>
+                                                                <div className="edit-btn" data-toggle="modal" data-target="#editModal" onClick={() => this.startEdit(e, 2)}>
+                                                                    <i className="far fa-edit float-right mr-1"></i>
+                                                                </div>
                                                                 <h4 className="card-title">{e.title}</h4>
                                                                 <p className="description">{e.description}</p>
-                                                                <a href={e.path} target="_blank" download>Download</a>
+                                                                <a href={e.path} target="_blank" download><i className="fas fa-cloud-download-alt"></i> Download</a>
+                                                                <small className="date">{moment(new Date(e.updated).valueOf()).fromNow()}</small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -539,15 +580,16 @@ class DisciplinePage extends React.Component {
                                             <input id="gdpr" className="mr-2" type="checkbox" />
                                             <label htmlFor="gdpr">Check for anonim post</label>
                                         </div>
-                                        <button className="btn btn-primary" onClick={() => this.commentAdd()}>Add comment</button>
+                                        <div className="btn btn-primary add-comment-btn" onClick={() => this.commentAdd()}>Add comment</div>
                                     </div>
 
                                     <div className="col-md-6 offset-md-3 mt-3">
                                         {comments && comments.map((e, key) => (
                                             <div className={e.userId === userId ? "card text-white bg-primary mb-1" : "card mb-1"} key={key}>
-                                                <div className="card-body">
+                                                <div className="card-body noanim">
                                                     <h5 className="card-title">{e.name}</h5>
                                                     <p className="card-text">{e.description}</p>
+                                                    <small className="date">{moment(new Date(e.updated).valueOf()).fromNow()}</small>
                                                 </div>
                                             </div>
                                         ))}
@@ -580,8 +622,8 @@ class DisciplinePage extends React.Component {
                                             </div>
                                         </div>
                                         <div className="modal-footer">
-                                            <button id="closeModal" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary" onClick={() => this.handleEdit()}>Save changes</button>
+                                            <div id="closeModal" className="btn btn-secondary close-edit-modal" data-dismiss="modal">Close</div>
+                                            <div className="btn btn-primary save-edit-modal" onClick={() => this.handleEdit()}>Save changes</div>
                                         </div>
                                     </div>
                                 </div>
@@ -612,8 +654,8 @@ class DisciplinePage extends React.Component {
                                             </div>
                                         </div>
                                         <div className="modal-footer">
-                                            <button id="closeModal2" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary" onClick={() => this.handleAdd()}>Save changes</button>
+                                            <div id="closeModal2" className="btn btn-secondary close-modal-add" data-dismiss="modal">Close</div>
+                                            <div className="btn btn-primary save-add-modal" onClick={() => this.handleAdd()}>Save changes</div>
                                         </div>
                                     </div>
                                 </div>
@@ -644,12 +686,12 @@ class DisciplinePage extends React.Component {
                                                     <textarea placeholder="Question.." className="form-control questionAdd" rows="3" value={e} onChange={(e) => this.handleQuestionChange(e.target.value, key)}></textarea>
                                                 </div>
                                             ))}
-                                            <button type="button" className="btn btn-primary mr-2" onClick={() => this.addMoreQuestion()}>Add question</button>
-                                            <button type="button" className="btn btn-danger" onClick={() => this.removeMoreQuestion()}>Remove last question</button>
+                                            <div className="btn btn-primary mr-2 close-modal-add" onClick={() => this.addMoreQuestion()}>Add question</div>
+                                            <div className="btn btn-danger save-add-modal" onClick={() => this.removeMoreQuestion()}>Remove last question</div>
                                         </div>
                                         <div className="modal-footer">
-                                            <button id="closeModal3" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary" onClick={() => this.handleAddQuestion()}>Save changes</button>
+                                            <div id="closeModal3" className="btn btn-secondary close-modal-add" data-dismiss="modal">Close</div>
+                                            <div className="btn btn-primary save-add-modal" onClick={() => this.handleAddQuestion()}>Save changes</div>
                                         </div>
                                     </div>
                                 </div>
